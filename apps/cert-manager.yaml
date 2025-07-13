@@ -1,0 +1,27 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: cluster-api-operator-cert-manager
+  namespace: argocd 
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    namespace: capi-operator-system
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    repoURL: https://charts.jetstack.io
+    targetRevision: 1.17.2
+    chart: cert-manager
+    helm:
+      values: |
+        installCRDs: true
+  syncPolicy:
+    syncOptions:
+    - CreateNamespace=true
+    - ServerSideApply=true
+    automated: 
+      prune: true
+      selfHeal: true
+

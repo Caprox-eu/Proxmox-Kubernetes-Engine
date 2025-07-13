@@ -1,0 +1,28 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: cluster-api-operator-caprox-engine
+  namespace: argocd 
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    namespace: capi-operator-system
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    repoURL: https://github.com/Caprox-eu/Proxmox-Kubernetes-Engine.git
+    targetRevision: 99c87250802d886cfce28fe20a313637eae8a80a
+    path: manifests/clusterclass-cilium-with-shared-ippool/base
+  syncPolicy:
+    syncOptions:
+    - CreateNamespace=true
+    - ServerSideApply=true
+    automated: 
+      prune: true
+      selfHeal: true
+  ignoreDifferences:
+    - group: cluster.x-k8s.io
+      kind: ClusterClass
+      jsonPointers:
+        - /spec
