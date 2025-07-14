@@ -1,6 +1,7 @@
 # Proxmox Kubernetes Engine (PKE)
 This is the repository corresponding to this [blogpost](https://dev.to/3deep5me/from-zero-to-scale-kubernetes-on-proxmox-the-scaling-autopilot-method-1l64).
 
+![Image description](https://i.ibb.co/6JVF7Z23/background-drawio-2.png)
 
 # From Zero to Scale: Kubernetes on Proxmox (The scaling Autopilot Method)
 Today, we'll take a beginner-friendly look at housing Kubernetes in Proxmox. But instead of the traditional SSH/Ansible approach, we'll explore a method akin to what you'd find with AWS, Azure, or GCP. This means we're talking about scaling from tens to hundreds of Kubernetes clusters in minutes, with automated, reproducible cluster creation and upgrades.
