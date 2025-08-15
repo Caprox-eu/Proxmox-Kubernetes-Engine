@@ -333,8 +333,8 @@ spec:
     server: https://kubernetes.default.svc
   project: default
   source:
-    repoURL: https://github.com/Caprox-eu/Proxmox-Kubernetes-Engine.git
-    targetRevision: 99c87250802d886cfce28fe20a313637eae8a80a
+    repoURL: https://github.com/recontech404/Proxmox-Kubernetes-Engine.git
+    targetRevision: 912ff3fe949990711808e06e770d5ad95ac94bd2
     path: manifests/clusterclass-cilium-with-shared-ippool/base
   syncPolicy:
     syncOptions:
@@ -474,6 +474,21 @@ spec:
         vmTemplate:
           sourceNode: node01
           templateID: 114
+        
+        #Example of if you want to modify node resources
+        #machineSpec:
+        #  controlPlane:
+        #    numCores: 2
+        #    numSockets: 1
+        #    memoryMiB: 4096
+        #  workerNode:
+        #    numCores: 6
+        #    numSockets: 1
+        #    memoryMiB: 6144
+        #    disks:
+        #      bootVolume:
+        #        disk: scsi0
+        #        sizeGb: 80
     - name: controlPlaneEndpoint
       value:
         host: 192.168.2.201
