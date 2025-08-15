@@ -6,14 +6,20 @@
     enabledIf: "{{ if .cloneSpec.machineSpec.workerNode.disks.bootVolume.sizeGb }}true{{ end }}"
     definitions:
       - selector:
-          apiVersion: infrastructure.cluster.x-k8s.io/v1alpha1  
+          apiVersion: infrastructure.cluster.x-k8s.io/v1alpha1
           kind: ProxmoxMachineTemplate
           matchResources:
             controlPlane: false
             machineDeploymentClass:
               names:
-                - proxmox-worker
+              - proxmox-worker
         jsonPatches:
+          - op: add
+            path: /spec/template/spec/disks
+            value: {}
+          - op: add
+            path: /spec/template/spec/disks/bootVolume
+            value: {}
           - op: add
             path: /spec/template/spec/disks/bootVolume/disk
             valueFrom:
