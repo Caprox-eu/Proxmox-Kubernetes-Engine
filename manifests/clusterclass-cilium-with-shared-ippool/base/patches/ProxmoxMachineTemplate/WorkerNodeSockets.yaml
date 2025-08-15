@@ -3,7 +3,7 @@
   value:
     name: WorkerNodeSockets
     description: "Configure Worker Node Sockets"
-    enabledIf: "{{ if .cloneSpec.machineSpecs.workerNode.numSockets }}true{{ end }}"
+    enabledIf: "{{ if .cloneSpec.machineSpec.workerNode.numSockets }}true{{ end }}"
     definitions:
       - selector:
           apiVersion: infrastructure.cluster.x-k8s.io/v1alpha1
