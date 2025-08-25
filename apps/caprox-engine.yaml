@@ -12,7 +12,7 @@ spec:
   project: default
   source:
     repoURL: https://github.com/Caprox-eu/Proxmox-Kubernetes-Engine.git
-    targetRevision: 99c87250802d886cfce28fe20a313637eae8a80a
+    targetRevision: proxmox-csi
     path: manifests/clusterclass-cilium-with-shared-ippool/base
   syncPolicy:
     syncOptions:
