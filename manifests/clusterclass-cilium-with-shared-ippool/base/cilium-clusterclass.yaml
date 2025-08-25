@@ -48,6 +48,7 @@ spec:
           metadata:
             labels:
               node-role.kubernetes.io/node: ""
+              topology.kubernetes.io/region: Datacenter
         machineHealthCheck:
           maxUnhealthy: 33%
           nodeStartupTimeout: 15m
