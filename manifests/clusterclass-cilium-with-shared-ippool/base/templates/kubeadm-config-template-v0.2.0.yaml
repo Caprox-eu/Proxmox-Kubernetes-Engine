@@ -10,3 +10,4 @@ spec:
           kubeletExtraArgs:
             provider-id: "proxmox://'{{ ds.meta_data.instance_id }}'"
             cloud-provider: external
+            node-ip: "{{ ds.meta_data.local_ipv4 }}"
