@@ -10,7 +10,7 @@ spec:
     ref:
       apiVersion: controlplane.cluster.x-k8s.io/v1beta1
       kind: KubeadmControlPlaneTemplate
-      name: proxmox-kubernetes-engine-v0.2.0
+      name: proxmox-kubernetes-engine
     machineInfrastructure:
       ref:
         kind: ProxmoxMachineTemplate
@@ -39,7 +39,7 @@ spec:
             ref:
               apiVersion: bootstrap.cluster.x-k8s.io/v1beta1
               kind: KubeadmConfigTemplate
-              name: proxmox-kubernetes-engine-workertemplate-v0.2.0
+              name: proxmox-kubernetes-engine-workertemplate
           infrastructure:
             ref:
               apiVersion: infrastructure.cluster.x-k8s.io/v1alpha1

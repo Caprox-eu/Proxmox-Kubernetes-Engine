@@ -1,7 +1,7 @@
 apiVersion: controlplane.cluster.x-k8s.io/v1beta1
 kind: KubeadmControlPlaneTemplate
 metadata:
-  name: proxmox-clusterclass-v0.1.0-control-plane
+  name: proxmox-kubernetes-engine
 spec:
   template:
     spec:
@@ -65,7 +65,9 @@ spec:
           nodeRegistration:
             kubeletExtraArgs:
               provider-id: "proxmox://'{{ ds.meta_data.instance_id }}'"
+              cloud-provider: external
         joinConfiguration:
           nodeRegistration:
             kubeletExtraArgs:
               provider-id: "proxmox://'{{ ds.meta_data.instance_id }}'"
+              cloud-provider: external
