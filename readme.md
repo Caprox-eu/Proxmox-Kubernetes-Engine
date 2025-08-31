@@ -141,9 +141,26 @@ stringData:
   PROXMOX_ISO_POOL: "local" #this should be fine for the most users
   PROXMOX_BRIDGE: "vmbr0" #this should be fine for the most users
   PROXMOX_STORAGE_POOL: "local" #this should be fine for the most users
-  PACKER_FLAGS: "--var memory=4096 --var 'kubernetes_rpm_version=1.33.1' --var 'kubernetes_semver=v1.33.1' --var 'kubernetes_series=v1.33' --var 'kubernetes_deb_version=1.33.1-1.1'"
+  PACKER_FLAGS: >-
+   --var memory=4096 
+   --var kubernetes_rpm_version=1.33.1
+   --var kubernetes_semver=v1.33.1 
+   --var kubernetes_series=v1.33 
+   --var kubernetes_deb_version=1.33.1-1.1
 ```
 Configure needed values and save the File.
+
+Example on how to use ubuntu server
+```yaml
+  --var iso_url=https://releases.ubuntu.com/noble/ubuntu-24.04.3-live-server-amd64.iso
+  --var iso_checksum=c3514bf0056180d09376462a7a1b4f213c1d6e8ea67fae5c25099c6fd3d8274b
+```
+
+If the builder complains about the storage for lvm-thin add this to the packer flags.
+```yaml
+--var disk_format=raw
+```
+
 
 Now we need also a Job which creates the Image. A Job is a Kubernetes Pod which is only executed once with a finite life - until the Job successfully complete. It uses Image-Builder Docker-Image with the required configuration to build Kubernetes Proxmox VM-Templates. 
 ```yaml
@@ -333,8 +350,8 @@ spec:
     server: https://kubernetes.default.svc
   project: default
   source:
-    repoURL: https://github.com/Caprox-eu/Proxmox-Kubernetes-Engine.git
-    targetRevision: 99c87250802d886cfce28fe20a313637eae8a80a
+    repoURL: https://github.com/recontech404/Proxmox-Kubernetes-Engine.git
+    targetRevision: 912ff3fe949990711808e06e770d5ad95ac94bd2
     path: manifests/clusterclass-cilium-with-shared-ippool/base
   syncPolicy:
     syncOptions:
@@ -471,9 +488,26 @@ spec:
     variables:
     - name: cloneSpec
       value:
+        sshAuthorizedKeys:
+          - "ssh-ed25519 replace-with-your-ssh-key-and-ssh-to-node-ip-as root"
         vmTemplate:
           sourceNode: node01
           templateID: 114
+        
+        #Example of if you want to modify node resources
+        #machineSpec:
+        #  controlPlane:
+        #    numCores: 2
+        #    numSockets: 1
+        #    memoryMiB: 4096
+        #  workerNode:
+        #    numCores: 6
+        #    numSockets: 1
+        #    memoryMiB: 6144
+        #    disks:
+        #      bootVolume:
+        #        disk: scsi0
+        #        sizeGb: 80
     - name: controlPlaneEndpoint
       value:
         host: 192.168.2.201

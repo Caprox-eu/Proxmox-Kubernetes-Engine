@@ -78,3 +78,12 @@ patches:
   - path: patches/ProxmoxMachineTemplate/WorkerNodeSockets.yaml
     target:
       kind: ClusterClass
+  - path: patches/ProxmoxMachineTemplate/ControlPlaneBootDisk.yaml
+    target:
+      kind: ClusterClass
+  - path: patches/ProxmoxMachineTemplate/ControlPlaneCores.yaml
+    target:
+      kind: ClusterClass
+  - path: patches/ProxmoxMachineTemplate/WorkerNodeBootDisk.yaml
+    target:
+      kind: ClusterClass

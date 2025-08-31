@@ -3,7 +3,7 @@
   value:
     name: ControlPlaneMem
     description: "Configure ControlPlane Memory"
-    enabledIf: "{{ if .cloneSpec.machineSpec.workerNode.memoryMiB }}true{{ end }}"
+    enabledIf: "{{ if .cloneSpec.machineSpec.controlPlane.memoryMiB }}true{{ end }}"
     definitions:
       - selector:
           apiVersion: infrastructure.cluster.x-k8s.io/v1alpha1
