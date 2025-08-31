@@ -13,7 +13,7 @@ spec:
   chartName: proxmox-cloud-controller-manager
   valuesTemplate: |
     image:
-      tag: latest
+      tag: v0.11.0
       repository: 3deep5me/proxmox-cloud-controller-manager-7688dfdbf1b5ab35e7a5d1eb468051d7
     config:
       features:

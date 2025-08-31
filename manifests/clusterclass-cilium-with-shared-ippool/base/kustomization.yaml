@@ -6,13 +6,14 @@ resources:
   - cilium-clusterclass.yaml
   - templates/helmchartproxy-cilium.yaml
   #- templates/helmchartproxy-csi.yaml
-  #- templates/helmchartproxy-ccm.yaml
+  - templates/helmchartproxy-ccm.yaml
   - templates/kubeadm-config-template.yaml
   - templates/kubeadm-control-plane-template.yaml
   - templates/proxmox-cluster-template.yaml
   - templates/proxmox-machine-template-cp.yaml
   - templates/proxmox-machine-template-worker.yaml
   - templates/svc-lb
+  - templates/clusterresourceset-proxmox-secret.yaml
 #  - templates/ip-pool.yaml - configure this in your overlay
 
 patches:
