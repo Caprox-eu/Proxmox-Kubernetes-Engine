@@ -3,6 +3,11 @@ This is the repository corresponding to this [blogpost](https://dev.to/3deep5me/
 
 ![Image description](https://i.ibb.co/6JVF7Z23/background-drawio-2.png)
 
+If you have ideas to enrich or enhance this project just create a issue.
+
+[Post-1: From Zero to Scale: Kubernetes on Proxmox (The scaling Autopilot Method)](#from-zero-to-scale-kubernetes-on-proxmox-the-scaling-autopilot-method)
+[Post-2: Seamless Kubernetes Storage on Proxmox VE: Introducing the Proxmox CSI Driver with Proxmox Kubernetes Engine](#seamless-kubernetes-storage-on-proxmox-ve-introducing-the-proxmox-csi-driver)
+
 # From Zero to Scale: Kubernetes on Proxmox (The scaling Autopilot Method)
 Today, we'll take a beginner-friendly look at housing Kubernetes in Proxmox. But instead of the traditional SSH/Ansible approach, we'll explore a method akin to what you'd find with AWS, Azure, or GCP. This means we're talking about scaling from tens to hundreds of Kubernetes clusters in minutes, with automated, reproducible cluster creation and upgrades.
 
@@ -609,3 +614,19 @@ For this blog post, the following PRs/comments/issues were contributed:
 - https://github.com/ionos-cloud/cluster-api-provider-proxmox/pull/499
 - https://github.com/ionos-cloud/cluster-api-provider-proxmox/issues/492
 - https://github.com/kubernetes-sigs/image-builder/issues/1762
+
+
+# Seamless Kubernetes Storage on Proxmox VE: Introducing the Proxmox CSI Driver
+
+# rewrite this by ai
+In this article we’ll take a look at the Proxmox CSI Plugin, authored and maintained by Serge. This plugin is an implementation of the Container Storage Interface (CSI) for Kubernetes using Proxmox Virtual Environment backed volumes, which can be expanded to include e.g. Ceph.
+
+This is espaccly for users of the Prxomx Kubernets Engine - the proxmox kubernetes engeine is ... 
+
+for all users who wants to have a it in exsisting cluster i recommend this guide: https://blog.stonegarden.dev/articles/2024/06/k8s-proxmox-csi/
+
+for all others we start by updating our clusterclass to the newvest version the cluster class is...
+
+
+Thanks to
+https://github.com/Mattes83 for https://github.com/sergelogvinov/proxmox-csi-plugin/pull/302
