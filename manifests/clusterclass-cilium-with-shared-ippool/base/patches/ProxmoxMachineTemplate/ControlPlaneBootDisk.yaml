@@ -1,0 +1,27 @@
+- op: add
+  path: /spec/patches/-
+  value:
+    name: ControlPlaneBootDisk
+    description: "Configure Control Plane boot disk device & size"
+    enabledIf: "{{ if .cloneSpec.machineSpec.controlPlane.disks.bootVolume.sizeGb }}true{{ end }}"
+    definitions:
+      - selector:
+          apiVersion: infrastructure.cluster.x-k8s.io/v1alpha1
+          kind: ProxmoxMachineTemplate
+          matchResources:
+            controlPlane: true
+        jsonPatches:
+          - op: add
+            path: /spec/template/spec/disks
+            value: {}
+          - op: add
+            path: /spec/template/spec/disks/bootVolume
+            value: {}
+          - op: add
+            path: /spec/template/spec/disks/bootVolume/disk
+            valueFrom:
+              variable: cloneSpec.machineSpec.controlPlane.disks.bootVolume.disk
+          - op: add
+            path: /spec/template/spec/disks/bootVolume/sizeGb
+            valueFrom:
+              variable: cloneSpec.machineSpec.controlPlane.disks.bootVolume.sizeGb
