@@ -49,12 +49,12 @@
                         value: first
                       - name: cp_enable
                         value: "true"
-                      - name: cp_namespace
-                        value: kube-system
-                      - name: svc_leasename
-                        value: plndr-svcs-lock
-                      - name: address
-                        value: "{{ .controlPlaneEndpoint.host }}"
+                      - name: vip_leaseduration
+                        value: "15"
+                      - name: vip_renewdeadline
+                        value: "10"
+                      - name: vip_retryperiod
+                        value: "2"
                       image: ghcr.io/kube-vip/kube-vip:v1.0.0
                       imagePullPolicy: IfNotPresent
                       name: kube-vip
