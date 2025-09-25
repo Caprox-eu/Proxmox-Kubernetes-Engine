@@ -6,7 +6,7 @@ This is the repository corresponding to this [blogpost](https://dev.to/3deep5me/
 If you have ideas to enrich or enhance this project just create a issue.
 
 [Post-1: From Zero to Scale: Kubernetes on Proxmox (The scaling Autopilot Method)](#from-zero-to-scale-kubernetes-on-proxmox-the-scaling-autopilot-method)
-[Post-2: Seamless Kubernetes Storage on Proxmox VE: Introducing the Proxmox CSI Driver with Proxmox Kubernetes Engine](#seamless-kubernetes-storage-on-proxmox-ve-introducing-the-proxmox-csi-driver)
+[Post-2: Seamless Kubernetes Storage on Proxmox VE: Introducing the Proxmox CSI Driver within Proxmox Kubernetes Engine / Cluster-API](#seamless-kubernetes-storage-on-proxmox-ve-introducing-the-proxmox-csi-driver)
 
 # From Zero to Scale: Kubernetes on Proxmox (The scaling Autopilot Method)
 Today, we'll take a beginner-friendly look at housing Kubernetes in Proxmox. But instead of the traditional SSH/Ansible approach, we'll explore a method akin to what you'd find with AWS, Azure, or GCP. This means we're talking about scaling from tens to hundreds of Kubernetes clusters in minutes, with automated, reproducible cluster creation and upgrades.
@@ -616,10 +616,28 @@ For this blog post, the following PRs/comments/issues were contributed:
 - https://github.com/kubernetes-sigs/image-builder/issues/1762
 
 
-# Seamless Kubernetes Storage on Proxmox VE: Introducing the Proxmox CSI Driver
+# Seamless Kubernetes Persistent Storage on Proxmox VE: Introducing the Proxmox CSI Driver within Proxmox Kubernetes Engine
+
+Persistent Storage is often needed in kubernetes, espacilly in on-premissen enviorments where you can not levarge managed services, like a database. So you might tend to  to host statefulworkloads like databases or object-storage within kubernetes on-premise. As you might now Kubernetes does not have a build in storage solution. This is a fluch und segen zu gleich, because on the one hand we are really flexibale for diffrent use case but on the other hand its really hard to choose the right one. (Fun fact there are around 150! diffrent ones avaiable.)
+
+There is no perfect one fits all storage provider - but the Proxmox CSI Plugin is at least in my opion the only one if you have kubernetes clusters on proxmox. 
+
+The Proxmox CSI Plugin, authored and maintained by Serge is an implementation of the Container Storage Interface (CSI). The CSI is what i referened before as a storage solution or storage-provider it basicly coordinations all the persitsent storage needs in kubernetes by managing pvc's and pv's. So if you want to create a persistet volume in kubernetes, there is always a CSI which creates it for you.
+
+# Why Proxmox-CSI?
+The challing part persistent storage in kubernetes or in general is high avalaiblty means tolration hardware disk failures, kubernetes node failures or even full hypervisor fialiures like a proxmox node and beaing performant at the same time. Thats why there are 
+
+High avaliable means in this terms, you are able to tolerate hardware failures and kubernetes node failures or even hypervisor failures like a proxmox-node.
+
+
+ for Kubernetes using Proxmox Virtual Environment backed volumes, which can be expanded to include e.g. Ceph.
+
+
+
+
 
 # rewrite this by ai
-In this article we’ll take a look at the Proxmox CSI Plugin, authored and maintained by Serge. This plugin is an implementation of the Container Storage Interface (CSI) for Kubernetes using Proxmox Virtual Environment backed volumes, which can be expanded to include e.g. Ceph.
+In this article we’ll 
 
 This is espaccly for users of the Prxomx Kubernets Engine - the proxmox kubernetes engeine is ... 
 
