@@ -26,7 +26,6 @@
                   apiVersion: v1
                   kind: Pod
                   metadata:
-                    creationTimestamp: null
                     name: kube-vip
                     namespace: kube-system
                   spec:
@@ -34,25 +33,29 @@
                     - args:
                       - manager
                       env:
-                      - name: cp_enable
-                        value: "true"
-                      - name: vip_interface
-                        value: "{{ .cloneSpec.virtualIPNetworkInterface }}"
-                      - name: address
-                        value: "{{ .controlPlaneEndpoint.host }}"
-                      - name: port
-                        value: "6443"
                       - name: vip_arp
                         value: "true"
-                      - name: vip_leaderelection
+                      - name: port
+                        value: "6443"
+                      - name: vip_nodename
+                        valueFrom:
+                          fieldRef:
+                            fieldPath: spec.nodeName
+                      - name: vip_interface
+                        value: "{{ .cloneSpec.virtualIPNetworkInterface }}"
+                      - name: vip_subnet
+                        value: "32"
+                      - name: dns_mode
+                        value: first
+                      - name: cp_enable
                         value: "true"
-                      - name: vip_leaseduration
-                        value: "15"
-                      - name: vip_renewdeadline
-                        value: "10"
-                      - name: vip_retryperiod
-                        value: "2"
-                      image: ghcr.io/kube-vip/kube-vip:v0.5.11
+                      - name: cp_namespace
+                        value: kube-system
+                      - name: svc_leasename
+                        value: plndr-svcs-lock
+                      - name: address
+                        value: "{{ .controlPlaneEndpoint.host }}"
+                      image: ghcr.io/kube-vip/kube-vip:v1.0.0
                       imagePullPolicy: IfNotPresent
                       name: kube-vip
                       resources: {}
@@ -61,6 +64,8 @@
                           add:
                           - NET_ADMIN
                           - NET_RAW
+                          drop:
+                          - ALL
                       volumeMounts:
                       - mountPath: /etc/kubernetes/admin.conf
                         name: kubeconfig
@@ -72,7 +77,6 @@
                     volumes:
                     - hostPath:
                         path: /etc/kubernetes/admin.conf
-                        type: FileOrCreate
                       name: kubeconfig
       - selector:
           apiVersion: infrastructure.cluster.x-k8s.io/v1alpha1
