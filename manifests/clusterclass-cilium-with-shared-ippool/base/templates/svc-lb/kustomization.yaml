@@ -1,0 +1,13 @@
+# add here stuff for generating configmap out of the svc-lb sources
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+    - clusterresourceset-kube-vip.yaml
+configMapGenerator:
+  - name: svc-lb-kube-vip
+    files:
+      - sources/kube-vip-cloud-controller.yaml
+      - sources/kube-vip-svc-lb.yaml
+      - sources/cm.yaml
+    options:
+      disableNameSuffixHash: true
