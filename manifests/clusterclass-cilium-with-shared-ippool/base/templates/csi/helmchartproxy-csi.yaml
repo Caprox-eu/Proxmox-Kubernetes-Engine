@@ -1,0 +1,44 @@
+apiVersion: addons.cluster.x-k8s.io/v1alpha1
+kind: HelmChartProxy
+metadata:
+  name: csi
+spec:
+  clusterSelector:
+    matchLabels:
+      caprox.eu/csi: "true"
+  releaseName: csi
+  version: 0.3.16
+  repoURL: oci://ghcr.io/sergelogvinov/charts
+  namespace: kube-system
+  chartName: proxmox-csi-plugin
+  valuesTemplate: |
+    config:
+      features:
+        provider: capmox
+      clusters:
+        - url: https://192.168.2.142:8006/api2/json
+          insecure: true
+          token_id_file: /var/run/secrets/proxmox/token_id
+          token_secret_file: /var/run/secrets/proxmox/token_secret
+          # Datacenter name - always Datacenter
+          region: Datacenter
+
+    extraVolumes:
+      - name: credentials-proxmox
+        secret:
+          secretName: proxmox-credentials
+    extraVolumeMounts:
+      - name: credentials-proxmox
+        readOnly: true
+        mountPath: "/var/run/secrets/proxmox"
+
+    # Define the storage classes
+    storageClass:
+      - name: proxmox
+        storage: local
+        ssd: true
+        reclaimPolicy: Delete
+        fstype: ext4
+        # Define the storage class as default
+        annotations:
+          storageclass.kubernetes.io/is-default-class: "true"

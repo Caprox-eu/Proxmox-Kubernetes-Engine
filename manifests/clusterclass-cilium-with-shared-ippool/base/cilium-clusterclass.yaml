@@ -10,7 +10,7 @@ spec:
     ref:
       apiVersion: controlplane.cluster.x-k8s.io/v1beta1
       kind: KubeadmControlPlaneTemplate
-      name: proxmox-clusterclass-v0.1.0-control-plane
+      name: proxmox-kubernetes-engine
     machineInfrastructure:
       ref:
         kind: ProxmoxMachineTemplate
@@ -39,7 +39,7 @@ spec:
             ref:
               apiVersion: bootstrap.cluster.x-k8s.io/v1beta1
               kind: KubeadmConfigTemplate
-              name: proxmox-clusterclass-v0.1.0-workertemplate
+              name: proxmox-kubernetes-engine-workertemplate
           infrastructure:
             ref:
               apiVersion: infrastructure.cluster.x-k8s.io/v1alpha1
@@ -48,6 +48,7 @@ spec:
           metadata:
             labels:
               node-role.kubernetes.io/node: ""
+              topology.kubernetes.io/region: Datacenter
         machineHealthCheck:
           maxUnhealthy: 33%
           nodeStartupTimeout: 15m
