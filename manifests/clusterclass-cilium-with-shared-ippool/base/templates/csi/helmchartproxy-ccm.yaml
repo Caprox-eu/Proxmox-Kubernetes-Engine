@@ -23,8 +23,8 @@ spec:
       clusters:
         - url: https://192.168.2.142:8006/api2/json
           insecure: true
-          token_id_file: /run/secrets/proxmox/token_id
-          token_secret_file: /run/secrets/proxmox/token_secret
+          token_id_file: /var/run/secrets/proxmox/token_id
+          token_secret_file: /var/run/secrets/proxmox/token_secret
           # Datacenter name - always Datacenter
           region: Datacenter
 
@@ -35,7 +35,7 @@ spec:
     extraVolumeMounts:
       - name: credentials-proxmox
         readOnly: true
-        mountPath: "/run/secrets/proxmox"
+        mountPath: "/var/run/secrets/proxmox"
 
     enabledControllers:
       - cloud-node
