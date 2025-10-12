@@ -12,7 +12,7 @@ spec:
   project: default
   source:
     repoURL: https://charts.jetstack.io
-    targetRevision: 1.17.2
+    targetRevision: 1.18.2
     chart: cert-manager
     helm:
       values: |
