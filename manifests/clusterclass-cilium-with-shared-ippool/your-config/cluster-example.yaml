@@ -1,0 +1,34 @@
+# configure templateID,soureNode and controlPlaneEndpoint
+apiVersion: cluster.x-k8s.io/v1beta1
+kind: Cluster
+metadata:
+  labels:
+    # mandatory for functional cluster
+    caprox.eu/cni: cilium-v1.17.4
+    caprox.eu/ccm: "true"
+    caprox.eu/inject-proxmox-credentials: "true"
+    # optional
+    caprox.eu/csi: "true"
+    caprox.eu/service-lb: "true"
+  name: manuels-k8s-cluster
+  namespace: caprox-kubernetes-engine 
+spec:
+  topology:
+    class: proxmox-clusterclass-cilium-v0.1.0
+    version: 1.33.1
+    controlPlane:
+      replicas: 3
+    workers:
+      machineDeployments:
+      - class: proxmox-worker
+        name: proxmox-worker-pool
+        replicas: 3
+    variables:
+    - name: cloneSpec
+      value:
+        vmTemplate:
+          sourceNode: node01
+          templateID: 103
+    - name: controlPlaneEndpoint
+      value:
+        host: 192.168.2.202
