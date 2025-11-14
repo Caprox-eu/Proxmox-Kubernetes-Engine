@@ -398,7 +398,7 @@ stringData:
     apiVersion: v1
     kind: Secret
     metadata:
-      name: ccm-config
+      name: proxmox-credentials
       namespace: kube-system
     stringData:
       # change this
@@ -408,15 +408,15 @@ stringData:
     apiVersion: v1
     stringData:
       config.yaml: |-
+        features:
+          provider: capmox
         clusters:
-        - insecure: true
-          region: Datacenter
-          token_id_file: /var/run/secrets/proxmox/token_id
-          token_secret_file: /var/run/secrets/proxmox/token_secret
-          # change this
-          url: https://192.168.2.142:8006/api2/json
-    features:
-      provider: capmox
+            # change this
+          - url: https://192.168.2.142:8006/api2/json
+            insecure: true
+            token_id_file: /var/run/secrets/proxmox/token_id
+            token_secret_file: /var/run/secrets/proxmox/token_secret
+            region: Datacenter
     kind: Secret
     metadata:
       name: csi-config
@@ -425,18 +425,20 @@ stringData:
     apiVersion: v1
     stringData:
       config.yaml: |-
+        features:
+          provider: capmox
+          network:
+            mode: qemu
         clusters:
-        - insecure: true
-          region: Datacenter
-          token_id_file: /var/run/secrets/proxmox/token_id
-          token_secret_file: /var/run/secrets/proxmox/token_secret
-          # change this
-          url: https://192.168.2.142:8006/api2/json
-    features:
-      provider: capmox
+            # change this
+          - url: https://192.168.2.142:8006/api2/json
+            insecure: true
+            token_id_file: /var/run/secrets/proxmox/token_id
+            token_secret_file: /var/run/secrets/proxmox/token_secret
+            region: Datacenter
     kind: Secret
     metadata:
-      name: ccm-proxmox-cloud-controller-manager-from-file
+      name: ccm-config
       namespace: kube-system
     type: Opaque
 kind: Secret
