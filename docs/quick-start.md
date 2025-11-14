@@ -402,11 +402,11 @@ stringData:
       namespace: kube-system
     stringData:
       # change this
-      token_id: "caprox@pve!capi"
+      token_id: "xxx@pve!capi"
       token_secret: "xxx-xxx-xxx-xxx-xxx"
     ---
     apiVersion: v1
-    data:
+    stringData:
       config.yaml: |-
         clusters:
         - insecure: true
@@ -423,7 +423,7 @@ stringData:
       namespace: kube-system
     ---
     apiVersion: v1
-    data:
+    stringData:
       config.yaml: |-
         clusters:
         - insecure: true
@@ -442,6 +442,7 @@ stringData:
 kind: Secret
 metadata:
   name: proxmox-credentials
+  namespace: caprox-kubernetes-engine
   annotations:
     docs: this is the secret which will be used in the workload cluster to attach and detach volumes
 type: addons.cluster.x-k8s.io/resource-set
