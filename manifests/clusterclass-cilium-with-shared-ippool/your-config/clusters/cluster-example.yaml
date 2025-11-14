@@ -15,7 +15,7 @@ metadata:
 spec:
   topology:
     class: proxmox-clusterclass-cilium-v0.1.0
-    version: 1.34.1
+    version: 1.34.2
     controlPlane:
       replicas: 3
     workers:
