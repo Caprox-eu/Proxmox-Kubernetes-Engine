@@ -1,7 +1,8 @@
+# app-proxmox-kubernetes-engine.yaml
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: cluster-api-operator-caprox-engine
+  name: proxmox-kubernetes-engine
   namespace: argocd 
   finalizers:
     - resources-finalizer.argocd.argoproj.io
@@ -12,7 +13,7 @@ spec:
   project: default
   source:
     repoURL: https://github.com/Caprox-eu/Proxmox-Kubernetes-Engine.git
-    targetRevision: b0c1cd863b9d7e202782cee8b0297a2f018151d7
+    targetRevision: main
     path: manifests/clusterclass-cilium-with-shared-ippool/base
   syncPolicy:
     syncOptions:

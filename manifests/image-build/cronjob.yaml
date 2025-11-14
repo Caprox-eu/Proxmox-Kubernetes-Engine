@@ -1,0 +1,26 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: proxmox-template-builder
+  namespace: proxmox-build-infrastructure-system
+spec:
+  schedule: "* * * * *"
+  suspend: true 
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          hostNetwork: true
+          restartPolicy: OnFailure
+          containers:
+          - name: image-builder
+            image: registry.k8s.io/scl-image-builder/cluster-node-image-builder-amd64:v0.1.46
+            envFrom:
+            - secretRef:
+                name: proxmox-image-build-config
+            args:
+            - build-proxmox-ubuntu-2404
+            env:
+            # help for slow nodes
+              - name: ANSIBLE_TIMEOUT
+                value: "60"

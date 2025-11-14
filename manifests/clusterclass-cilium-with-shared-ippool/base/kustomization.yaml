@@ -11,7 +11,7 @@ resources:
   - templates/proxmox-machine-template-cp.yaml
   - templates/proxmox-machine-template-worker.yaml
   - templates/svc-lb
-#  - templates/ip-pool.yaml - configure this in your overlay
+  - templates/csi
 
 patches:
   # Variables for ClusterClass
