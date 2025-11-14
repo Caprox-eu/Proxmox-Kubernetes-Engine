@@ -385,7 +385,7 @@ Because we are overwriting the default secret we need to trigger a restart of th
 sudo k3s kubectl rollout restart deploy capmox-controller-manager -n proxmox-infrastructure-system
 ```
 
-### Connect you future Clusters to Proxmox-Storage
+### Connect your future Clusters to Proxmox-Storage
 Your Clusters later needs access to Proxmox to create new persistent Volumes / Proxmox Disks. For that we need to create a seperate Secret which will be copied automatiaclly in newly created Clusters. For a homelab setup, we can simply reuse the Proxmox credentials you created in the "Create an API Token and Create a Secret with the Values" step.
 
 Create this Secret with the exact same structure, configure it for your environment, then save and apply it.
