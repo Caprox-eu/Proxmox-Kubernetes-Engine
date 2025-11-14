@@ -31,7 +31,7 @@ spec:
     extraVolumes:
       - name: credentials-proxmox
         secret:
-          secretName: proxmox-credentials
+          secretName: proxmox-credentials-from-file
     extraVolumeMounts:
       - name: credentials-proxmox
         readOnly: true
