@@ -1,4 +1,4 @@
----
+# app-cluster-api.yaml
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
@@ -13,7 +13,7 @@ spec:
   project: default
   source:
     repoURL: https://kubernetes-sigs.github.io/cluster-api-operator
-    targetRevision: 0.19.0
+    targetRevision: 0.23.0
     chart: cluster-api-operator
     helm:
       values: |
@@ -28,27 +28,27 @@ spec:
         core:
           cluster-api:
             enabled: true
-            version: v1.10.2
+            version: v1.10.6
         bootstrap:
           kubeadm: 
             enabled: true
-            version: v1.10.2
+            version: v1.10.6
         controlPlane: 
           kubeadm: 
             enabled: true
-            version: v1.10.2
+            version: v1.10.6
         infrastructure: 
           proxmox:
             enabled: true
-            version: v0.7.1
+            version: v0.7.4
         ipam:
           in-cluster:
             enabled: true
-            version: v1.0.1
+            version: v1.0.3
         addon:
           helm: 
             enabled: true
-            version: v0.3.1
+            version: v0.3.2
   syncPolicy:
     syncOptions:
     - CreateNamespace=true
