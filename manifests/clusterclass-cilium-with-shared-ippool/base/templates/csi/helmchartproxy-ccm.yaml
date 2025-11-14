@@ -7,31 +7,16 @@ spec:
     matchLabels:
       caprox.eu/ccm: "true"
   releaseName: ccm
-  version: 0.2.17
+  version: 0.2.22
   repoURL: oci://ghcr.io/sergelogvinov/charts
   namespace: kube-system
   chartName: proxmox-cloud-controller-manager
   valuesTemplate: |
-    image:
-      tag: v0.11.0
-    config:
-      features:
-        # Provider type
-        provider: capmox
-        network:
-          mode: qemu
-      clusters:
-        - url: https://192.168.2.142:8006/api2/json
-          insecure: true
-          token_id_file: /var/run/secrets/proxmox/token_id
-          token_secret_file: /var/run/secrets/proxmox/token_secret
-          # Datacenter name - always Datacenter
-          region: Datacenter
-
+    existingConfigSecret: ccm-config
     extraVolumes:
       - name: credentials-proxmox
         secret:
-          secretName: proxmox-credentials-from-file
+          secretName: proxmox-credentials
     extraVolumeMounts:
       - name: credentials-proxmox
         readOnly: true

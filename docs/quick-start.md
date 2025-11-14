@@ -398,7 +398,7 @@ stringData:
     apiVersion: v1
     kind: Secret
     metadata:
-      name: proxmox-credentials
+      name: ccm-config
       namespace: kube-system
     stringData:
       # change this
@@ -419,7 +419,7 @@ stringData:
       provider: capmox
     kind: Secret
     metadata:
-      name: csi-proxmox-csi-plugin
+      name: csi-config
       namespace: kube-system
     ---
     apiVersion: v1
@@ -436,7 +436,7 @@ stringData:
       provider: capmox
     kind: Secret
     metadata:
-      name: ccm-proxmox-cloud-controller-manager
+      name: ccm-proxmox-cloud-controller-manager-from-file
       namespace: kube-system
     type: Opaque
 kind: Secret

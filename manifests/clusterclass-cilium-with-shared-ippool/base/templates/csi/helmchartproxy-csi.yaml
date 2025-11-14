@@ -7,26 +7,16 @@ spec:
     matchLabels:
       caprox.eu/csi: "true"
   releaseName: csi
-  version: 0.3.16
+  version: 0.4.1
   repoURL: oci://ghcr.io/sergelogvinov/charts
   namespace: kube-system
   chartName: proxmox-csi-plugin
   valuesTemplate: |
-    config:
-      features:
-        provider: capmox
-      clusters:
-        - url: https://192.168.2.142:8006/api2/json
-          insecure: true
-          token_id_file: /var/run/secrets/proxmox/token_id
-          token_secret_file: /var/run/secrets/proxmox/token_secret
-          # Datacenter name - always Datacenter
-          region: Datacenter
-
+    existingConfigSecret: csi-config
     extraVolumes:
       - name: credentials-proxmox
         secret:
-          secretName: proxmox-credentials-from-file
+          secretName: proxmox-credentials
     extraVolumeMounts:
       - name: credentials-proxmox
         readOnly: true
