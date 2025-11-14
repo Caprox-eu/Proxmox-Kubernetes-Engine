@@ -5,9 +5,9 @@ metadata:
 spec:
   clusterSelector:
     matchLabels:
-      caprox.eu/cni: cilium-v1.17.4
+      caprox.eu/cni: cilium-v1.18.4
   releaseName: cilium
-  version: 1.17.4
+  version: 1.18.4
   repoURL: https://helm.cilium.io/
   chartName: cilium
   namespace: kube-system

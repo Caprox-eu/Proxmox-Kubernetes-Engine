@@ -33,13 +33,13 @@ To install K3s, we'll use **`k3sup`** - a really simple CLI tool that allows you
 # install k3s-Kubernetes with k3sup
 curl -sLS https://get.k3sup.dev | sh
 sudo cp k3sup /usr/local/bin/k3sup
-k3sup install --local --k3s-version v1.33.1+k3s1
+k3sup install --local --k3s-version v1.34.1+k3s1
 ```
 You can test if the cluster is working with `sudo k3s kubectl get nodes`. It should show something like this:
 ```bash
 sudo k3s kubectl get nodes
 NAME        STATUS   ROLES                  AGE     VERSION
-localhost   Ready    control-plane,master   6m30s   v1.33.1+k3s1
+localhost   Ready    control-plane,master   6m30s   v1.34.1+k3s1
 ```
 Congratulations! You've successfully set up a simple single-node Kubernetes cluster. This cluster will serve as our Cluster API Management VM.
 

@@ -2,10 +2,8 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: cluster-api-operator-cert-manager
+  name: cert-manager
   namespace: argocd 
-  finalizers:
-    - resources-finalizer.argocd.argoproj.io
 spec:
   destination:
     namespace: capi-operator-system
@@ -13,7 +11,7 @@ spec:
   project: default
   source:
     repoURL: https://charts.jetstack.io
-    targetRevision: 1.18.2
+    targetRevision: 1.19.1
     chart: cert-manager
     helm:
       values: |

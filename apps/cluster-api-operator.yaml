@@ -2,10 +2,8 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: cluster-api-operator-main
+  name: cluster-api-operator
   namespace: argocd
-  finalizers:
-    - resources-finalizer.argocd.argoproj.io
 spec:
   destination:
     namespace: capi-operator-system
@@ -13,7 +11,7 @@ spec:
   project: default
   source:
     repoURL: https://kubernetes-sigs.github.io/cluster-api-operator
-    targetRevision: 0.23.0
+    targetRevision: 0.24.0
     chart: cluster-api-operator
     helm:
       values: |
@@ -28,19 +26,19 @@ spec:
         core:
           cluster-api:
             enabled: true
-            version: v1.10.6
+            version: v1.11.3
         bootstrap:
           kubeadm: 
             enabled: true
-            version: v1.10.6
+            version: v1.11.3
         controlPlane: 
           kubeadm: 
             enabled: true
-            version: v1.10.6
+            version: v1.11.3
         infrastructure: 
           proxmox:
             enabled: true
-            version: v0.7.4
+            version: v0.7.5
         ipam:
           in-cluster:
             enabled: true
@@ -48,7 +46,7 @@ spec:
         addon:
           helm: 
             enabled: true
-            version: v0.3.2
+            version: v0.4.1
   syncPolicy:
     syncOptions:
     - CreateNamespace=true
