@@ -1,5 +1,5 @@
 # Proxmox Kubernetes Engine (PKE)
-PKE (Proxmox Kubernetes Engine) is a solution for automatically deploying and managing high available Kubernetes clusters directly on Proxmox VE environments. It is designed for homelabbers and small and medium enterprises (KMUs/SMEs) as a simpler yet flexible alternative to OpenShift, Tanzu, or Rancher. It does not require SSH access or modifications to your Proxmox VE nodes.
+PKE (Proxmox Kubernetes Engine) is a solution for automatically deploying and managing high available Kubernetes clusters directly on Proxmox VE environments. It is designed for homelabbers and small and medium enterprises (KMUs/SMEs) as a simpler yet flexible alternative to OpenShift, Tanzu, or Rancher. **It does not require SSH access or modifications to your Proxmox VE nodes.**
 
 ![Image description](https://i.ibb.co/6JVF7Z23/background-drawio-2.png)
 
