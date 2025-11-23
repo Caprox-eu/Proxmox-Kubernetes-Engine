@@ -37,7 +37,8 @@ Cluster API currently boasts over 30 infrastructure providers, with Proxmox bein
 In my opinion, they are a perfect match for a modern, open-source, Kubernetes-based private cloud.
 
 ## Roadmap
-[ ] Web-UI with [cyclops](https://github.com/cyclops-ui/cyclops)
+- [ ] Web-UI with [cyclops](https://github.com/cyclops-ui/cyclops)
+- [ ] Migrate to v1beta2 cluster-api
 
 ## Also in this Area
 - [Cozystack PaaS-hosted](https://cozystack.io/docs/operations/configuration/bundles/#paas-hosted): Convert your Kubernetes cluster into a full cloud experience
