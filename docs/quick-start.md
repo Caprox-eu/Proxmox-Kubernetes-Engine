@@ -95,24 +95,17 @@ stringData:
   PROXMOX_STORAGE_POOL: "local" #this should be fine for the most users
   PACKER_FLAGS: >-
    --var memory=4096 
-   --var kubernetes_rpm_version=1.33.1
-   --var kubernetes_semver=v1.33.1 
-   --var kubernetes_series=v1.33 
-   --var kubernetes_deb_version=1.33.1-1.1
+   --var kubernetes_rpm_version=1.34.2
+   --var kubernetes_semver=v1.34.2 
+   --var kubernetes_series=v1.34 
+   --var kubernetes_deb_version=1.34.2-1.1
 ```
 Configure needed values and save the File.
-
-Example on how to use ubuntu server
-```yaml
-  --var iso_url=https://releases.ubuntu.com/noble/ubuntu-24.04.3-live-server-amd64.iso
-  --var iso_checksum=c3514bf0056180d09376462a7a1b4f213c1d6e8ea67fae5c25099c6fd3d8274b
-```
 
 If the builder complains about the storage for lvm-thin add this to the packer flags.
 ```yaml
 --var disk_format=raw
 ```
-
 
 Now we need also a Job which creates the Image. A Job is a Kubernetes Pod which is only executed once with a finite life - until the Job successfully complete. It uses Image-Builder Docker-Image with the required configuration to build Kubernetes Proxmox VM-Templates. 
 ```yaml
@@ -133,7 +126,7 @@ spec:
           restartPolicy: OnFailure
           containers:
           - name: image-builder
-            image: registry.k8s.io/scl-image-builder/cluster-node-image-builder-amd64:v0.1.45
+            image: registry.k8s.io/scl-image-builder/cluster-node-image-builder-amd64:v0.1.47
             envFrom:
             - secretRef:
                 name: proxmox-image-build-config
@@ -302,7 +295,7 @@ spec:
   project: default
   source:
     repoURL: https://github.com/Caprox-eu/Proxmox-Kubernetes-Engine.git
-    targetRevision: main
+    targetRevision: 08302b9a1e3d3699b2a716ac9e07bc53e9aeabeb
     path: manifests/clusterclass-cilium-with-shared-ippool/base
   syncPolicy:
     syncOptions:
@@ -346,13 +339,13 @@ Then with the caprox-engine.
 ```bash
 sudo k3s kubectl apply -f app-proxmox-kubernetes-engine.yaml
 ```
-Wait until the App is Heathly and synced.
+This App will later go Healthy after we finsihed the first cluster creation.
 ```bash
 sudo k3s kubectl get apps -A
 NAME                                 SYNC STATUS   HEALTH STATUS
 cluster-api-operator-cert-manager    Synced        Healthy
 cluster-api-operator-main            Synced        Healthy
-proxmox-kubernetes-engine            Synced        Healthy
+proxmox-kubernetes-engine            Synced        Progressing
 ...
 ```
 Nice! Now we need to configure cluster-api to our specific environment.
@@ -471,7 +464,7 @@ spec:
   # These IPs will be used for the Kubernetes nodes
   # Also configure your network prefix and gateway accordingly
   addresses:
-  - 192.168.2.150-192.168.2.199
+  - 192.168.2.100-192.168.2.149
   gateway: 192.168.2.1
   prefix: 24
 ```
@@ -493,7 +486,7 @@ kind: Cluster
 metadata:
   labels:
     # mandatory for functional cluster
-    caprox.eu/cni: cilium-v1.17.4
+    caprox.eu/cni: cilium-v1.18.4
     caprox.eu/ccm: "true"
     caprox.eu/inject-proxmox-credentials: "true"
     # optional
@@ -504,7 +497,7 @@ metadata:
 spec:
   topology:
     class: proxmox-clusterclass-cilium-v0.1.0
-    version: 1.33.1
+    version: 1.34.2
     controlPlane:
       replicas: 1
     workers:
@@ -515,12 +508,9 @@ spec:
     variables:
     - name: cloneSpec
       value:
-        sshAuthorizedKeys:
-          - "ssh-ed25519 replace-with-your-ssh-key-and-ssh-to-node-ip-as root"
         vmTemplate:
           sourceNode: node01
-          templateID: 114
-        
+          templateID: 114        
         #Example of if you want to modify node resources
         #machineSpec:
         #  controlPlane:
@@ -537,7 +527,7 @@ spec:
         #        sizeGb: 80
     - name: controlPlaneEndpoint
       value:
-        host: 192.168.2.201
+        host: 192.168.2.200
 ```
 
 The fields you **must** change are:
@@ -564,7 +554,7 @@ The fields you **can** change are:
 * **`metadata.name`**:
     * This is the name of your Kubernetes cluster.
 
-For more configuration options, including memory and CPU settings for your VMs, refer to the available **variables** [here](https://github.com/3deep5me/kubernetes-gitops/blob/cluster-api-action/k3s-mgmt-proxmox/manifest/capmox-setup/cilium-clusterclass-with-shared-ippool/base/variables/clonespec.yaml).
+For more configuration options, including memory and CPU settings for your VMs, refer to the available **variables** [here](https://github.com/Caprox-eu/Proxmox-Kubernetes-Engine/blob/main/manifests/clusterclass-cilium-with-shared-ippool/base/variables/clonespec.yaml).
 
 After you've set the required fields, remember to save the file.
 

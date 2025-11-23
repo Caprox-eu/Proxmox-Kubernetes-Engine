@@ -29,6 +29,20 @@ spec:
         vmTemplate:
           sourceNode: node01
           templateID: 101
+        #Example of if you want to modify node resources
+        #machineSpec:
+        #  controlPlane:
+        #    numCores: 2
+        #    numSockets: 1
+        #    memoryMiB: 4096
+        #  workerNode:
+        #    numCores: 6
+        #    numSockets: 1
+        #    memoryMiB: 6144
+        #    disks:
+        #      bootVolume:
+        #        disk: scsi0
+        #        sizeGb: 80
     - name: controlPlaneEndpoint
       value:
-        host: 192.168.2.205
+        host: 192.168.2.210
