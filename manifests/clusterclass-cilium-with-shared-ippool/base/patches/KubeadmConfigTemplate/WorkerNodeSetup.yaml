@@ -29,5 +29,7 @@
         jsonPatches:
           - op: replace
             path: /spec/template/spec/templateSelector/matchTags
+            # template used because valueFrom with string was not working
             valueFrom:
-              variable: cloneSpec.vmTemplate.templateTag
+              template: |
+                [ "{{ .cloneSpec.vmTemplate.templateTag }}" ]
