@@ -26,6 +26,8 @@
             properties:
               templateTag:
                 type: array
+                items:
+                  type: string
                 example: ["1.34.2"]
           machineSpec:
             type: object
