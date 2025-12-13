@@ -27,8 +27,7 @@ spec:
     - name: cloneSpec
       value:
         vmTemplate:
-          sourceNode: node01
-          templateID: 101
+          templateTag: "1.34.2"
         #Example of if you want to modify node resources
         #machineSpec:
         #  controlPlane:

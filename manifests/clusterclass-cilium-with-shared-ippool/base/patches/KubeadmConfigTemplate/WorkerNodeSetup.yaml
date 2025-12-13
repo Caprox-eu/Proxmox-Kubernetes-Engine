@@ -28,10 +28,6 @@
               - proxmox-worker
         jsonPatches:
           - op: replace
-            path: /spec/template/spec/sourceNode
+            path: /spec/template/spec/templateSelector/matchTags
             valueFrom:
-              variable: cloneSpec.vmTemplate.sourceNode
-          - op: replace
-            path: /spec/template/spec/templateID
-            valueFrom:
-              variable: cloneSpec.vmTemplate.templateID
+              variable: cloneSpec.vmTemplate.templateTag
