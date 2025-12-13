@@ -1,4 +1,4 @@
-apiVersion: cluster.x-k8s.io/v1beta1
+apiVersion: cluster.x-k8s.io/v1beta2
 kind: Cluster
 metadata:
   name: {{ .Release.Name }}
@@ -18,7 +18,8 @@ metadata:
     {{- end }}
 spec:
   topology:
-    class: proxmox-clusterclass-cilium-v0.1.0
+    classRef: 
+      name: proxmox-clusterclass-cilium-v0.1.0
     # Hier wird die Version gesetzt (#1)
     version: {{ .Values.kubernetesVersion | quote }}
     controlPlane:
