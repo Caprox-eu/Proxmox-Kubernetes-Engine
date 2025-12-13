@@ -1,0 +1,13 @@
+# values.yaml
+kubernetesVersion: "1.34.2"
+
+controlPlane:
+  replicas: 1
+  endpoint: "" 
+
+workers:
+  replicas: 1
+
+features:
+  csi: true
+  serviceLb: true

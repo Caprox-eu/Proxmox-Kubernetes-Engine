@@ -1,0 +1,64 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Proxmox Kubernetes Cluster",
+  "type": "object",
+  "required": [
+    "controlPlane"
+  ],
+  "properties": {
+    "kubernetesVersion": {
+      "type": "string",
+      "title": "Kubernetes Version",
+      "description": "Die Version von Kubernetes. Setzt gleichzeitig das VM Template Tag.",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$",
+      "default": "1.34.2"
+    },
+    "controlPlane": {
+      "type": "object",
+      "title": "Control Plane Konfiguration",
+      "required": ["endpoint", "replicas"],
+      "properties": {
+        "replicas": {
+          "type": "integer",
+          "title": "Anzahl Replikas",
+          "minimum": 1,
+          "default": 1
+        },
+        "endpoint": {
+          "type": "string",
+          "title": "Control Plane IP (Host)",
+          "description": "Die statische IP-Adresse (VIP) für den Zugriff auf den API-Server (Pflichtfeld).",
+          "format": "ipv4"
+        }
+      }
+    },
+    "workers": {
+      "type": "object",
+      "title": "Worker Nodes Konfiguration",
+      "properties": {
+        "replicas": {
+          "type": "integer",
+          "title": "Anzahl Replikas",
+          "minimum": 0,
+          "default": 1
+        }
+      }
+    },
+    "features": {
+      "type": "object",
+      "title": "Zusatzfunktionen (Labels)",
+      "properties": {
+        "csi": {
+          "type": "boolean",
+          "title": "CSI (Storage) aktivieren",
+          "default": true
+        },
+        "serviceLb": {
+          "type": "boolean",
+          "title": "Service LoadBalancer aktivieren",
+          "default": true
+        }
+      }
+    }
+  }
+}
