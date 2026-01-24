@@ -85,10 +85,8 @@
             controlPlane: true
         jsonPatches:
           - op: replace
-            path: /spec/template/spec/sourceNode
+            path: /spec/template/spec/templateSelector/matchTags
+            # template used because valueFrom with string was not working
             valueFrom:
-              variable: cloneSpec.vmTemplate.sourceNode
-          - op: replace
-            path: /spec/template/spec/templateID
-            valueFrom:
-              variable: cloneSpec.vmTemplate.templateID
+              template: |
+                [ "{{ .cloneSpec.vmTemplate.templateTag }}" ]

@@ -1,0 +1,6 @@
+apiVersion: v2
+description: A Helm chart for Proxmox Kubernetes Cluster deployment within the Proxmox Kubernetes Engine (PKE)
+type: application
+name: proxmox-kubernetes-cluster
+version: 0.0.1
+appVersion: "1.34.2"

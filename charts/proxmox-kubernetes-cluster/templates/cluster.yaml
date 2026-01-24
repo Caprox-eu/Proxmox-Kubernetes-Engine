@@ -1,0 +1,35 @@
+apiVersion: cluster.x-k8s.io/v1beta2
+kind: Cluster
+metadata:
+  name: {{ .Release.Name }}
+  namespace: caprox-kubernetes-engine
+  labels:
+    caprox.eu/cni: cilium-v1.18.4
+    caprox.eu/ccm: "true"
+    caprox.eu/inject-proxmox-credentials: "true"
+    {{- if .Values.features.csi }}
+    caprox.eu/csi: "true"
+    {{- end }}
+    {{- if .Values.features.serviceLb }}
+    caprox.eu/service-lb: "true"
+    {{- end }}
+spec:
+  topology:
+    classRef: 
+      name: proxmox-clusterclass-cilium-v0.1.0
+    version: {{ .Values.kubernetesVersion | quote }}
+    controlPlane:
+      replicas: {{ .Values.controlPlane.replicas }}
+    workers:
+      machineDeployments:
+      - class: proxmox-worker
+        name: proxmox-worker-pool
+        replicas: {{ .Values.workers.replicas }}
+    variables:
+    - name: cloneSpec
+      value:
+        vmTemplate:
+          templateTag: {{ .Values.kubernetesVersion | quote }}
+    - name: controlPlaneEndpoint
+      value:
+        host: {{ required "Eine gültige IP (controlPlane.endpoint) ist erforderlich!" .Values.controlPlane.endpoint | quote }}

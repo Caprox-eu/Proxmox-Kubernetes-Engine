@@ -169,6 +169,11 @@ Please ensure that you have DHCP configured in your network. If you encounter an
 
 If you're lucky, you should see a new template in the UI after a few minutes.![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/ebymhlsjwkqa2o49bhek.png)
 
+In order for the Cluster API to find our template later, we need to add a tag named `v1.34.2` to the template.
+![Tag](https://i.imgur.com/QrPsQxQ.png)
+
+This step will be automated when [this](https://github.com/kubernetes-sigs/image-builder/pull/1914) is merged and released.
+
 And thats it - you completed the "most complicated" part!
 
 ## Initialize Cluster-API
@@ -295,7 +300,7 @@ spec:
   project: default
   source:
     repoURL: https://github.com/Caprox-eu/Proxmox-Kubernetes-Engine.git
-    targetRevision: 08302b9a1e3d3699b2a716ac9e07bc53e9aeabeb
+    targetRevision: v0.0.2
     path: manifests/clusterclass-cilium-with-shared-ippool/base
   syncPolicy:
     syncOptions:
@@ -395,7 +400,7 @@ stringData:
       namespace: kube-system
     stringData:
       # change this
-      token_id: "xxx@pve!capi"
+      token_id: "caprox@pve!capi"
       token_secret: "xxx-xxx-xxx-xxx-xxx"
     ---
     apiVersion: v1
@@ -480,7 +485,7 @@ As always everthing is a file - same is true for a Kubernetes Cluster in Cluster
 ### The Cluster Resource
 A cluster configuration which is compatible with our setup could look like this.
 ```yaml
-# cluster.yaml
+# configure controlPlaneEndpoint
 apiVersion: cluster.x-k8s.io/v1beta1
 kind: Cluster
 metadata:
@@ -509,8 +514,7 @@ spec:
     - name: cloneSpec
       value:
         vmTemplate:
-          sourceNode: node01
-          templateID: 114        
+          templateTag: "v1.34.2"
         #Example of if you want to modify node resources
         #machineSpec:
         #  controlPlane:
@@ -527,14 +531,10 @@ spec:
         #        sizeGb: 80
     - name: controlPlaneEndpoint
       value:
-        host: 192.168.2.200
+        host: 192.168.2.210
 ```
 
 The fields you **must** change are:
-
-* **`vmTemplate`**
-    * **`sourceNode`**: Set this to the name of the Proxmox node where your VM template is located.
-    * **`templateID`**: This is the ID of your Kubernetes template. You can find it in the Proxmox UI, listed as the number next to the template name.
 
 * **`controlPlaneEndpoint`**:
     * This IP address will be used to access your Kubernetes cluster.

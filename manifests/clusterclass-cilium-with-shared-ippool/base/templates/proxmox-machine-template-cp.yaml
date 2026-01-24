@@ -5,8 +5,9 @@ metadata:
 spec:
   template:
     spec:
-      sourceNode: pve1
-      templateID: 100
+      templateSelector:
+        matchTags:
+          - "v1.34.1"
       format: qcow2
       full: true
       network:

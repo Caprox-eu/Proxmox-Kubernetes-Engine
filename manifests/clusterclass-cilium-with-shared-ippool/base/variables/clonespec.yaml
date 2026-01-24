@@ -22,15 +22,11 @@
           vmTemplate:
             type: object
             required:
-            - sourceNode
-            - templateID
+            - templateTag
             properties:
-              sourceNode:
+              templateTag:
                 type: string
-                example: pve1
-              templateID:
-                type: integer
-                example: 100
+                example: "1.34.2"
           machineSpec:
             type: object
             properties:
