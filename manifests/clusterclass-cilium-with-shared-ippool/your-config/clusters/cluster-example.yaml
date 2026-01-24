@@ -1,4 +1,4 @@
-# configure templateID,soureNode and controlPlaneEndpoint
+# configure controlPlaneEndpoint
 apiVersion: cluster.x-k8s.io/v1beta1
 kind: Cluster
 metadata:
@@ -27,7 +27,7 @@ spec:
     - name: cloneSpec
       value:
         vmTemplate:
-          templateTag: "1.34.2"
+          templateTag: "v1.34.2"
         #Example of if you want to modify node resources
         #machineSpec:
         #  controlPlane:

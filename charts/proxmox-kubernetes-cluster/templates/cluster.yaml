@@ -4,12 +4,9 @@ metadata:
   name: {{ .Release.Name }}
   namespace: caprox-kubernetes-engine
   labels:
-    # Mandatory Labels (Hardcoded wie angefordert)
     caprox.eu/cni: cilium-v1.18.4
     caprox.eu/ccm: "true"
     caprox.eu/inject-proxmox-credentials: "true"
-    
-    # Konfigurierbare Labels (#1)
     {{- if .Values.features.csi }}
     caprox.eu/csi: "true"
     {{- end }}
@@ -20,24 +17,19 @@ spec:
   topology:
     classRef: 
       name: proxmox-clusterclass-cilium-v0.1.0
-    # Hier wird die Version gesetzt (#1)
     version: {{ .Values.kubernetesVersion | quote }}
     controlPlane:
-      # Replikas für Control Plane (#1)
       replicas: {{ .Values.controlPlane.replicas }}
     workers:
       machineDeployments:
       - class: proxmox-worker
         name: proxmox-worker-pool
-        # Replikas für Worker (#1)
         replicas: {{ .Values.workers.replicas }}
     variables:
     - name: cloneSpec
       value:
         vmTemplate:
-          # Hier wird dieselbe Version als TemplateTag verwendet (#1 same as version)
           templateTag: {{ .Values.kubernetesVersion | quote }}
     - name: controlPlaneEndpoint
       value:
-        # Hier wird geprüft, ob der Wert (#2 Mandatory) vorhanden ist
         host: {{ required "Eine gültige IP (controlPlane.endpoint) ist erforderlich!" .Values.controlPlane.endpoint | quote }}
