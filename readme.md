@@ -37,6 +37,10 @@ Cluster API currently boasts over 30 infrastructure providers, with Proxmox bein
 In my opinion, they are a perfect match for a modern, open-source, Kubernetes-based private cloud.
 
 ## Roadmap
+- [ ] automate managment vm start
+    - create an ova with nioxs generator which can get config from
+    - assistant if you connect via ssh
+    - full cloud-init config
 - [ ] Web-UI for cluster creation
 - [ ] Migrate to v1beta2 cluster-api
 
