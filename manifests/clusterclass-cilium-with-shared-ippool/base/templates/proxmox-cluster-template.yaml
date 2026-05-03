@@ -20,4 +20,4 @@ spec:
       cloneSpec:
         virtualIPNetworkInterface: ""
         sshAuthorizedKeys: []
-        machineSpec: []
+        machineSpec: {}
