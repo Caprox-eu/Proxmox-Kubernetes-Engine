@@ -15,19 +15,19 @@ metadata:
 spec:
   topology:
     class: proxmox-clusterclass-cilium-v0.1.0
-    version: 1.34.2
+    version: 1.34.7
     controlPlane:
-      replicas: 3
+      replicas: 1
     workers:
       machineDeployments:
       - class: proxmox-worker
         name: proxmox-worker-pool
-        replicas: 3
+        replicas: 1
     variables:
     - name: cloneSpec
       value:
         vmTemplate:
-          templateTag: "v1.34.2"
+          templateTag: "v1-34-7"
         #Example of if you want to modify node resources
         #machineSpec:
         #  controlPlane:
@@ -44,4 +44,4 @@ spec:
         #        sizeGb: 80
     - name: controlPlaneEndpoint
       value:
-        host: 192.168.2.210
+        host: 192.168.178.210

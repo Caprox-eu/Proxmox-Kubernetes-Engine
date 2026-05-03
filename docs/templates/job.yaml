@@ -1,9 +1,9 @@
-# kubectl create job build-image --from cj/proxmox-template-builder -n caprox-kubernetes-engine 
+# job.yaml
 apiVersion: batch/v1
 kind: CronJob
 metadata:
   name: proxmox-template-builder
-  namespace: caprox-kubernetes-engine
+  namespace: proxmox-build-infrastructure-system
 spec:
   schedule: "* * * * *"
   suspend: true 
@@ -15,7 +15,7 @@ spec:
           restartPolicy: OnFailure
           containers:
           - name: image-builder
-            image: registry.k8s.io/scl-image-builder/cluster-node-image-builder-amd64:v0.1.47
+            image: registry.k8s.io/scl-image-builder/cluster-node-image-builder-amd64:v0.1.50
             envFrom:
             - secretRef:
                 name: proxmox-image-build-config

@@ -4,6 +4,8 @@ kind: Application
 metadata:
   name: proxmox-kubernetes-engine
   namespace: argocd 
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
 spec:
   destination:
     namespace: capi-operator-system
@@ -11,7 +13,7 @@ spec:
   project: default
   source:
     repoURL: https://github.com/Caprox-eu/Proxmox-Kubernetes-Engine.git
-    targetRevision: main
+    targetRevision: v0.0.2
     path: manifests/clusterclass-cilium-with-shared-ippool/base
   syncPolicy:
     syncOptions:

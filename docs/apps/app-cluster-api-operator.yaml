@@ -4,6 +4,8 @@ kind: Application
 metadata:
   name: cluster-api-operator
   namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
 spec:
   destination:
     namespace: capi-operator-system
@@ -11,42 +13,49 @@ spec:
   project: default
   source:
     repoURL: https://kubernetes-sigs.github.io/cluster-api-operator
-    targetRevision: 0.24.0
+    targetRevision: 0.26.0
     chart: cluster-api-operator
     helm:
       values: |
-        manager:
-          featureGates:
-            proxmox:
-              ClusterTopology: true
-            core:
-              ClusterTopology: true
-            kubeadm:
-              ClusterTopology: true
         core:
           cluster-api:
             enabled: true
-            version: v1.11.3
+            version: v1.10.10
+            manager:
+              featureGates:
+                ClusterTopology: true
         bootstrap:
           kubeadm: 
             enabled: true
-            version: v1.11.3
+            version: v1.10.10
+            manager:
+              featureGates:
+                ClusterTopology: true
         controlPlane: 
           kubeadm: 
             enabled: true
-            version: v1.11.3
+            version: v1.10.10
+            manager:
+              featureGates:
+                ClusterTopology: true
         infrastructure: 
           proxmox:
             enabled: true
-            version: v0.7.5
+            version: v0.7.7
+            manager:
+              featureGates:
+                ClusterTopology: true
         ipam:
           in-cluster:
             enabled: true
             version: v1.0.3
+            manager:
+              featureGates:
+                ClusterTopology: true
         addon:
           helm: 
             enabled: true
-            version: v0.4.1
+            version: v0.4.2
   syncPolicy:
     syncOptions:
     - CreateNamespace=true
