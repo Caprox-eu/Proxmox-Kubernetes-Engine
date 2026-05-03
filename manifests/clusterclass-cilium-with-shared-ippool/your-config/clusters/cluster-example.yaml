@@ -4,7 +4,7 @@ kind: Cluster
 metadata:
   labels:
     # mandatory for functional cluster
-    caprox.eu/cni: cilium-v1.18.4
+    caprox.eu/cni: cilium # or "caprox.eu/cni: cilium-ipv6-dual-stack" if you have ipv6 in your network
     caprox.eu/ccm: "true"
     caprox.eu/inject-proxmox-credentials: "true"
     # optional

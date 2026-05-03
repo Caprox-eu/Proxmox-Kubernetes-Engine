@@ -21,5 +21,4 @@ spec:
         virtualIPNetworkInterface: ""
         sshAuthorizedKeys: []
         machineSpec:
-          controlPlane:
-            sourceNode: pve1
+          controlPlane: {}

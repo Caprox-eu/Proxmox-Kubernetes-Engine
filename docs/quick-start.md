@@ -307,7 +307,7 @@ spec:
   project: default
   source:
     repoURL: https://github.com/Caprox-eu/Proxmox-Kubernetes-Engine.git
-    targetRevision: v0.0.2
+    targetRevision: v0.0.3
     path: manifests/clusterclass-cilium-with-shared-ippool/base
   syncPolicy:
     syncOptions:
@@ -498,7 +498,7 @@ kind: Cluster
 metadata:
   labels:
     # mandatory for functional cluster
-    caprox.eu/cni: cilium-v1.18.4
+    caprox.eu/cni: cilium # or "caprox.eu/cni: cilium-ipv6-dual-stack" if you have ipv6 in your network
     caprox.eu/ccm: "true"
     caprox.eu/inject-proxmox-credentials: "true"
     # optional
