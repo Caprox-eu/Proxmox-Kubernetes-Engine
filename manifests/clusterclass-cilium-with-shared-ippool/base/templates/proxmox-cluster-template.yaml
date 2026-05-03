@@ -20,6 +20,3 @@ spec:
       cloneSpec:
         virtualIPNetworkInterface: ""
         sshAuthorizedKeys: []
-        machineSpec:
-          controlPlane:
-            sourceNode: pve1
