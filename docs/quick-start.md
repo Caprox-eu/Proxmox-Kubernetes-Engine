@@ -78,7 +78,7 @@ We will also use our Management VM to coordinate the VM Template Builds. For tha
 First let us create the Secret with values we got from above.
 You only need to change the first four Proxmox-Vars.
 ```yaml
-# secret.yaml
+# build-secret.yaml
 apiVersion: v1
 kind: Secret
 metadata:
@@ -95,10 +95,10 @@ stringData:
   PROXMOX_STORAGE_POOL: "local" #this should be fine for the most users
   PACKER_FLAGS: >-
    --var memory=4096 
-   --var kubernetes_rpm_version=1.34.2
-   --var kubernetes_semver=v1.34.2 
-   --var kubernetes_series=v1.34 
-   --var kubernetes_deb_version=1.34.2-1.1
+   --var kubernetes_rpm_version=1.34.7
+   --var kubernetes_semver=v1.34.7
+   --var kubernetes_series=v1.34
+   --var kubernetes_deb_version=1.34.7-1.1
 ```
 Configure needed values and save the File.
 
@@ -126,7 +126,7 @@ spec:
           restartPolicy: OnFailure
           containers:
           - name: image-builder
-            image: registry.k8s.io/scl-image-builder/cluster-node-image-builder-amd64:v0.1.47
+            image: registry.k8s.io/scl-image-builder/cluster-node-image-builder-amd64:v0.1.50
             envFrom:
             - secretRef:
                 name: proxmox-image-build-config
@@ -147,7 +147,7 @@ Now you should have two file one Secret and one (Cron)-Job, the Cron-Job has the
 # create a namespace for the build
 sudo k3s kubectl create namespace proxmox-build-infrastructure-system
 # apply secret & job
-sudo k3s kubectl apply -f secret.yaml
+sudo k3s kubectl apply -f build-secret.yaml
 sudo k3s kubectl apply -f job.yaml
 # start the build
 sudo k3s kubectl create job build-image --from cj/proxmox-template-builder -n proxmox-build-infrastructure-system 
@@ -169,7 +169,7 @@ Please ensure that you have DHCP configured in your network. If you encounter an
 
 If you're lucky, you should see a new template in the UI after a few minutes.![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/ebymhlsjwkqa2o49bhek.png)
 
-In order for the Cluster API to find our template later, we need to add a tag named `v1.34.2` to the template.
+In order for the Cluster API to find our template later, we need to add a tag named **`v1-34-7`** to the template.
 ![Tag](https://i.imgur.com/QrPsQxQ.png)
 
 This step will be automated when [this](https://github.com/kubernetes-sigs/image-builder/pull/1914) is merged and released.
@@ -183,7 +183,7 @@ In the next step, we'll configure Cluster-API to our needs. I prefer to avoid ke
 ArgoCD will retrieve the YAML configurations for the various Cluster-API components. You can install ArgoCD using these two commands:
 ```bash
 sudo k3s kubectl create namespace argocd
-sudo k3s kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+sudo k3s kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml --server-side
 ```
 You can check the status of argocd with this command `sudo k3s kubectl get pods -n argocd` if all pods are running you are ready for the next step.
 
@@ -200,7 +200,7 @@ We will install these Cluster-API components as ArgoCD Applications. An ArgoCD A
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: cluster-api-operator-cert-manager
+  name: cert-manager
   namespace: argocd 
   finalizers:
     - resources-finalizer.argocd.argoproj.io
@@ -211,7 +211,7 @@ spec:
   project: default
   source:
     repoURL: https://charts.jetstack.io
-    targetRevision: 1.18.2
+    targetRevision: 1.20.2
     chart: cert-manager
     helm:
       values: |
@@ -229,7 +229,7 @@ spec:
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: cluster-api-operator-main
+  name: cluster-api-operator
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
@@ -240,42 +240,49 @@ spec:
   project: default
   source:
     repoURL: https://kubernetes-sigs.github.io/cluster-api-operator
-    targetRevision: 0.23.0
+    targetRevision: 0.26.0
     chart: cluster-api-operator
     helm:
       values: |
-        manager:
-          featureGates:
-            proxmox:
-              ClusterTopology: true
-            core:
-              ClusterTopology: true
-            kubeadm:
-              ClusterTopology: true
         core:
           cluster-api:
             enabled: true
-            version: v1.10.6
+            version: v1.10.10
+            manager:
+              featureGates:
+                ClusterTopology: true
         bootstrap:
           kubeadm: 
             enabled: true
-            version: v1.10.6
+            version: v1.10.10
+            manager:
+              featureGates:
+                ClusterTopology: true
         controlPlane: 
           kubeadm: 
             enabled: true
-            version: v1.10.6
+            version: v1.10.10
+            manager:
+              featureGates:
+                ClusterTopology: true
         infrastructure: 
           proxmox:
             enabled: true
-            version: v0.7.4
+            version: v0.7.7
+            manager:
+              featureGates:
+                ClusterTopology: true
         ipam:
           in-cluster:
             enabled: true
             version: v1.0.3
+            manager:
+              featureGates:
+                ClusterTopology: true
         addon:
           helm: 
             enabled: true
-            version: v0.3.2
+            version: v0.4.2
   syncPolicy:
     syncOptions:
     - CreateNamespace=true
@@ -502,7 +509,7 @@ metadata:
 spec:
   topology:
     class: proxmox-clusterclass-cilium-v0.1.0
-    version: 1.34.2
+    version: 1.34.7
     controlPlane:
       replicas: 1
     workers:
@@ -514,7 +521,7 @@ spec:
     - name: cloneSpec
       value:
         vmTemplate:
-          templateTag: "v1.34.2"
+          templateTag: "v1-34-7"
         #Example of if you want to modify node resources
         #machineSpec:
         #  controlPlane:
@@ -531,7 +538,7 @@ spec:
         #        sizeGb: 80
     - name: controlPlaneEndpoint
       value:
-        host: 192.168.2.210
+        host: 192.168.178.210
 ```
 
 The fields you **must** change are:
