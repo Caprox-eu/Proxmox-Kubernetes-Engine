@@ -1,5 +1,5 @@
 ---
-apiVersion: cluster.x-k8s.io/v1beta1
+apiVersion: cluster.x-k8s.io/v1beta2
 kind: ClusterClass
 metadata:
   name: proxmox-clusterclass-cilium-v0.1.0
@@ -8,7 +8,7 @@ spec:
     namingStrategy:
       template: "{{ .cluster.name }}-control-plane-{{ .random }}"
     ref:
-      apiVersion: controlplane.cluster.x-k8s.io/v1beta1
+      apiVersion: controlplane.cluster.x-k8s.io/v1beta2
       kind: KubeadmControlPlaneTemplate
       name: proxmox-kubernetes-engine
     machineInfrastructure:
@@ -37,7 +37,7 @@ spec:
         template:
           bootstrap:
             ref:
-              apiVersion: bootstrap.cluster.x-k8s.io/v1beta1
+              apiVersion: bootstrap.cluster.x-k8s.io/v1beta2
               kind: KubeadmConfigTemplate
               name: proxmox-kubernetes-engine-workertemplate
           infrastructure:

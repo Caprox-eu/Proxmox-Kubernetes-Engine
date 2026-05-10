@@ -20,46 +20,32 @@ spec:
         core:
           cluster-api:
             enabled: true
-            version: v1.10.10
-            manager:
-              featureGates:
-                ClusterTopology: true
+            version: v1.11.10
         bootstrap:
           kubeadm: 
             enabled: true
-            version: v1.10.10
-            manager:
-              featureGates:
-                ClusterTopology: true
+            version: v1.11.10
         controlPlane: 
           kubeadm: 
             enabled: true
-            version: v1.10.10
-            manager:
-              featureGates:
-                ClusterTopology: true
+            version: v1.11.10
         infrastructure: 
           proxmox:
             enabled: true
-            version: v0.7.7
-            manager:
-              featureGates:
-                ClusterTopology: true
+            version: v0.8.1
         ipam:
           in-cluster:
             enabled: true
             version: v1.0.3
-            manager:
-              featureGates:
-                ClusterTopology: true
         addon:
           helm: 
             enabled: true
-            version: v0.4.2
+            version: v0.5.3
   syncPolicy:
     syncOptions:
     - CreateNamespace=true
     - ServerSideApply=true
+    - Force=true
     automated: 
       prune: true
       selfHeal: true
