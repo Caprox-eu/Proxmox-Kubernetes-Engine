@@ -21,18 +21,30 @@ spec:
           cluster-api:
             enabled: true
             version: v1.11.10
+            manager:
+              featureGates:
+                ClusterTopology: true
         bootstrap:
           kubeadm: 
             enabled: true
             version: v1.11.10
+            manager:
+              featureGates:
+                ClusterTopology: true
         controlPlane: 
           kubeadm: 
             enabled: true
             version: v1.11.10
+            manager:
+              featureGates:
+                ClusterTopology: true
         infrastructure: 
           proxmox:
             enabled: true
             version: v0.8.1
+            manager:
+              featureGates:
+                ClusterTopology: true
         ipam:
           in-cluster:
             enabled: true

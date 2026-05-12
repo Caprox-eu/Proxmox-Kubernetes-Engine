@@ -5,61 +5,63 @@ metadata:
   name: proxmox-clusterclass-cilium-v0.1.0
 spec:
   controlPlane:
-    namingStrategy:
-      template: "{{ .cluster.name }}-control-plane-{{ .random }}"
-    ref:
+    healthCheck:
+      checks:
+        nodeStartupTimeoutSeconds: 900
+        unhealthyNodeConditions:
+        - status: Unknown
+          timeoutSeconds: 300
+          type: Ready
+        - status: "False"
+          timeoutSeconds: 300
+          type: Ready
+    machineInfrastructure:
+      templateRef:
+        apiVersion: infrastructure.cluster.x-k8s.io/v1alpha2
+        kind: ProxmoxMachineTemplate
+        name: proxmox-clusterclass-v0.1.0-control-plane-template
+    naming:
+      template: '{{ .cluster.name }}-control-plane-{{ .random }}'
+    templateRef:
       apiVersion: controlplane.cluster.x-k8s.io/v1beta2
       kind: KubeadmControlPlaneTemplate
       name: proxmox-kubernetes-engine
-    machineInfrastructure:
-      ref:
-        kind: ProxmoxMachineTemplate
-        apiVersion: infrastructure.cluster.x-k8s.io/v1alpha1
-        name: proxmox-clusterclass-v0.1.0-control-plane-template
-    machineHealthCheck:
-      maxUnhealthy: 100%
-      nodeStartupTimeout: 15m
-      unhealthyConditions:
-        - type: Ready
-          status: Unknown
-          timeout: 300s
-        - type: Ready
-          status: "False"
-          timeout: 300s
   infrastructure:
-    ref:
-      apiVersion: infrastructure.cluster.x-k8s.io/v1alpha1
+    templateRef:
+      apiVersion: infrastructure.cluster.x-k8s.io/v1alpha2
       kind: ProxmoxClusterTemplate
       name: proxmox-clusterclass-cilium-v0.1.0-clustertemplate
   workers:
     machineDeployments:
-      - class: proxmox-worker
-        template:
-          bootstrap:
-            ref:
-              apiVersion: bootstrap.cluster.x-k8s.io/v1beta2
-              kind: KubeadmConfigTemplate
-              name: proxmox-kubernetes-engine-workertemplate
-          infrastructure:
-            ref:
-              apiVersion: infrastructure.cluster.x-k8s.io/v1alpha1
-              kind: ProxmoxMachineTemplate
-              name: proxmox-clusterclass-v0.1.0-workertemplate
-          metadata:
-            labels:
-              node-role.kubernetes.io/node: ""
-              topology.kubernetes.io/region: Datacenter
-        machineHealthCheck:
-          maxUnhealthy: 33%
-          nodeStartupTimeout: 15m
-          unhealthyConditions:
-            - type: Ready
-              status: Unknown
-              timeout: 300s
-            - type: Ready
-              status: "False"
-              timeout: 300s
-        namingStrategy:
-           template: "{{ .cluster.name }}-worker-{{ .random }}"
+    - bootstrap:
+        templateRef:
+          apiVersion: bootstrap.cluster.x-k8s.io/v1beta2
+          kind: KubeadmConfigTemplate
+          name: proxmox-kubernetes-engine-workertemplate
+      class: proxmox-worker
+      healthCheck:
+        checks:
+          nodeStartupTimeoutSeconds: 900
+          unhealthyNodeConditions:
+          - status: Unknown
+            timeoutSeconds: 300
+            type: Ready
+          - status: "False"
+            timeoutSeconds: 300
+            type: Ready
+        remediation:
+          triggerIf:
+            unhealthyLessThanOrEqualTo: 33%
+      infrastructure:
+        templateRef:
+          apiVersion: infrastructure.cluster.x-k8s.io/v1alpha2
+          kind: ProxmoxMachineTemplate
+          name: proxmox-clusterclass-v0.1.0-workertemplate
+      metadata:
+        labels:
+          node-role.kubernetes.io/node: ""
+          topology.kubernetes.io/region: Datacenter
+      naming:
+        template: '{{ .cluster.name }}-worker-{{ .random }}'
   variables: []
   patches: []

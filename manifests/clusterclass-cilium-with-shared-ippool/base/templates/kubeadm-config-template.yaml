@@ -8,5 +8,7 @@ spec:
       joinConfiguration:
         nodeRegistration:
           kubeletExtraArgs:
-            provider-id: "proxmox://'{{ ds.meta_data.instance_id }}'"
-            cloud-provider: external
+            - name: provider-id
+              value: "proxmox://'{{ ds.meta_data.instance_id }}'"
+            - name: cloud-provider
+              value: external

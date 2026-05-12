@@ -8,7 +8,7 @@ spec:
       schedulerHints:
         memoryAdjustment: 0
       controlPlaneEndpoint:
-        host: 10.10.10.9
+        host: 10.10.10.11
         port: 6443
       dnsServers: [8.8.8.8, 8.8.4.4]
       ipv4Config:
@@ -17,8 +17,3 @@ spec:
         addresses: [10.10.10.2-10.10.10.10]
         prefix: 24
         gateway: 10.10.10.1
-      cloneSpec:
-        virtualIPNetworkInterface: ""
-        sshAuthorizedKeys: []
-        machineSpec:
-          controlPlane: {}

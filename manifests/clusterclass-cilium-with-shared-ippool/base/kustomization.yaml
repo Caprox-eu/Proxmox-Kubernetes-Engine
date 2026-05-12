@@ -46,12 +46,6 @@ patches:
   - path: patches/KubeadmControlPlaneTemplate/kube-proxy-setup.yaml
     target:
       kind: ClusterClass
-  - path: patches/ProxmoxClusterTemplate/ClusterIPv4Config.yaml
-    target:
-      kind: ClusterClass
-  - path: patches/ProxmoxClusterTemplate/ClusterIPv6Config.yaml
-    target:
-      kind: ClusterClass
   - path: patches/ProxmoxClusterTemplate/ProxmoxClusterTemplateGeneral.yaml
     target:
       kind: ClusterClass
