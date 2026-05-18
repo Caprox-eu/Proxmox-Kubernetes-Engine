@@ -202,8 +202,6 @@ kind: Application
 metadata:
   name: cert-manager
   namespace: argocd 
-  finalizers:
-    - resources-finalizer.argocd.argoproj.io
 spec:
   destination:
     namespace: capi-operator-system
@@ -247,28 +245,28 @@ spec:
         core:
           cluster-api:
             enabled: true
-            version: v1.10.10
+            version: v1.11.10
             manager:
               featureGates:
                 ClusterTopology: true
         bootstrap:
           kubeadm: 
             enabled: true
-            version: v1.10.10
+            version: v1.11.10
             manager:
               featureGates:
                 ClusterTopology: true
         controlPlane: 
           kubeadm: 
             enabled: true
-            version: v1.10.10
+            version: v1.11.10
             manager:
               featureGates:
                 ClusterTopology: true
         infrastructure: 
           proxmox:
             enabled: true
-            version: v0.7.7
+            version: v0.8.1
             manager:
               featureGates:
                 ClusterTopology: true
@@ -276,13 +274,10 @@ spec:
           in-cluster:
             enabled: true
             version: v1.0.3
-            manager:
-              featureGates:
-                ClusterTopology: true
         addon:
           helm: 
             enabled: true
-            version: v0.4.2
+            version: v0.5.3
   syncPolicy:
     syncOptions:
     - CreateNamespace=true
@@ -307,7 +302,7 @@ spec:
   project: default
   source:
     repoURL: https://github.com/Caprox-eu/Proxmox-Kubernetes-Engine.git
-    targetRevision: v0.0.3
+    targetRevision: v0.0.4
     path: manifests/clusterclass-cilium-with-shared-ippool/base
   syncPolicy:
     syncOptions:
@@ -493,7 +488,7 @@ As always everthing is a file - same is true for a Kubernetes Cluster in Cluster
 A cluster configuration which is compatible with our setup could look like this.
 ```yaml
 # configure controlPlaneEndpoint
-apiVersion: cluster.x-k8s.io/v1beta1
+apiVersion: cluster.x-k8s.io/v1beta2
 kind: Cluster
 metadata:
   labels:
@@ -508,7 +503,9 @@ metadata:
   namespace: caprox-kubernetes-engine 
 spec:
   topology:
-    class: proxmox-clusterclass-cilium-v0.1.0
+    classRef: 
+      name: proxmox-clusterclass-cilium-v0.1.0
+      namespace: caprox-kubernetes-engine
     version: 1.34.7
     controlPlane:
       replicas: 1
