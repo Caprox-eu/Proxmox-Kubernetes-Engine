@@ -5,7 +5,7 @@
     description: "Configure Worker Node Initialisation"
     definitions:
       - selector:
-          apiVersion: bootstrap.cluster.x-k8s.io/v1beta1
+          apiVersion: bootstrap.cluster.x-k8s.io/v1beta2
           kind: KubeadmConfigTemplate
           matchResources:
             machineDeploymentClass:
@@ -19,7 +19,7 @@
                 - name: root
                   sshAuthorizedKeys: {{ .cloneSpec.sshAuthorizedKeys }}
       - selector:
-          apiVersion: infrastructure.cluster.x-k8s.io/v1alpha1
+          apiVersion: infrastructure.cluster.x-k8s.io/v1alpha2
           kind: ProxmoxMachineTemplate
           matchResources:
             controlPlane: false

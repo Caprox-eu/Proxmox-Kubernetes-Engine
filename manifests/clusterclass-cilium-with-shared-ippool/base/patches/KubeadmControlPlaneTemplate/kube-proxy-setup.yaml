@@ -6,7 +6,7 @@
     enabledIf: "{{ if eq .kubeProxy.mode \"ipvs\" }}true{{ end }}"
     definitions:
       - selector:
-          apiVersion: controlplane.cluster.x-k8s.io/v1beta1
+          apiVersion: controlplane.cluster.x-k8s.io/v1beta2
           kind: KubeadmControlPlaneTemplate
           matchResources:
             controlPlane: true

@@ -1,5 +1,5 @@
 kind: KubeadmConfigTemplate
-apiVersion: bootstrap.cluster.x-k8s.io/v1beta1
+apiVersion: bootstrap.cluster.x-k8s.io/v1beta2
 metadata:
   name: proxmox-kubernetes-engine-workertemplate
 spec:
@@ -8,5 +8,7 @@ spec:
       joinConfiguration:
         nodeRegistration:
           kubeletExtraArgs:
-            provider-id: "proxmox://'{{ ds.meta_data.instance_id }}'"
-            cloud-provider: external
+            - name: provider-id
+              value: "proxmox://'{{ ds.meta_data.instance_id }}'"
+            - name: cloud-provider
+              value: external

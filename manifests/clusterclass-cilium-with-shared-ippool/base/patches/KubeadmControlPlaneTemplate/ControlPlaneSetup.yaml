@@ -5,7 +5,7 @@
     description: "How to bind the Control Plane and what K8S version"
     definitions:
       - selector:
-          apiVersion: controlplane.cluster.x-k8s.io/v1beta1
+          apiVersion: controlplane.cluster.x-k8s.io/v1beta2
           kind: KubeadmControlPlaneTemplate
           matchResources:
             controlPlane: true
@@ -79,7 +79,7 @@
                         path: /etc/kubernetes/admin.conf
                       name: kubeconfig
       - selector:
-          apiVersion: infrastructure.cluster.x-k8s.io/v1alpha1
+          apiVersion: infrastructure.cluster.x-k8s.io/v1alpha2
           kind: ProxmoxMachineTemplate
           matchResources:
             controlPlane: true
