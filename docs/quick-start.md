@@ -15,7 +15,9 @@ In my example, the Management VM and Kubernetes clusters will all reside on a si
 
 ### Create a New VM for Our Management VM
 
-We need a simple Linux VM for our **Management VM** with **30 GiB of disk space** and at least **4 GiB of RAM**.
+We need a simple Linux VM for our **Management VM** with **30 GiB of disk space** and at least **4 GiB of RAM**. 
+
+**Important**: IP Adresse change of the management VM is currently not supported.
 
 For Proxmox beginners, I recommend [this great guide](https://support.us.ovhcloud.com/hc/en-us/articles/360010916620-How-to-Create-a-VM-in-Proxmox-VE). You'll also need an ISO image, which you can download [here](https://ubuntu.com/download/server/thank-you?version=24.04.2&architecture=amd64&lts=true) from the official Ubuntu website.
 
