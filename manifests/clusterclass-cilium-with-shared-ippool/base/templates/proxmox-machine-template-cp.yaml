@@ -11,11 +11,8 @@ spec:
       format: qcow2
       full: true
       network:
+        zone: "pke-zone-1"
         networkDevices:
           - name: net0 
             bridge: vmbr0
             model: virtio
-            ipPoolRef:
-            - kind: InClusterIPPool
-              apiGroup: ipam.cluster.x-k8s.io
-              name: clusterclass-ipv4
