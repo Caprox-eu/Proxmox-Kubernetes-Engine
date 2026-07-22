@@ -15,7 +15,7 @@ PKE (Proxmox Kubernetes Engine) is a solution for automatically deploying and ma
 
 No code is written - if a feature is needed, I prefer to contribute upstream.
 
-## Architecutre
+## Architecture
 ![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/htlnxjzkz6m11w5rlrsv.png)
 
 The architecture is completely based on Cluster API. For details, refer to the [Cluster API Documentation](https://cluster-api.sigs.k8s.io/user/concepts). In the Quick Start, K3s is used as the management VM. Please refer to the [Quick Start](./docs/quick-start.md) for more information.
