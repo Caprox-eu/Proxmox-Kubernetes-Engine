@@ -97,10 +97,10 @@ stringData:
   PROXMOX_STORAGE_POOL: "local" #this should be fine for the most users
   PACKER_FLAGS: >-
    --var memory=4096 
-   --var kubernetes_rpm_version=1.34.7
-   --var kubernetes_semver=v1.34.7
+   --var kubernetes_rpm_version=1.34.10
+   --var kubernetes_semver=v1.34.10
    --var kubernetes_series=v1.34
-   --var kubernetes_deb_version=1.34.7-1.1
+   --var kubernetes_deb_version=1.34.10-1.1
 ```
 Configure needed values and save the File.
 
@@ -171,7 +171,7 @@ Please ensure that you have DHCP configured in your network. If you encounter an
 
 If you're lucky, you should see a new template in the UI after a few minutes.![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/ebymhlsjwkqa2o49bhek.png)
 
-In order for the Cluster API to find our template later, we need to add a tag named **`v1-34-7`** to the template.
+In order for the Cluster API to find our template later, we need to add a tag named **`v1-34-10`** to the template.
 ![Tag](https://i.imgur.com/QrPsQxQ.png)
 
 This step will be automated when [this](https://github.com/kubernetes-sigs/image-builder/pull/1914) is merged and released.
@@ -508,7 +508,7 @@ spec:
     classRef: 
       name: proxmox-clusterclass-cilium-v0.1.0
       namespace: caprox-kubernetes-engine
-    version: 1.34.7
+    version: 1.34.10
     controlPlane:
       replicas: 1
     workers:
@@ -520,7 +520,7 @@ spec:
     - name: cloneSpec
       value:
         vmTemplate:
-          templateTag: "v1-34-7"
+          templateTag: "v1-34-10"
         #Example of if you want to modify node resources
         #machineSpec:
         #  controlPlane:
