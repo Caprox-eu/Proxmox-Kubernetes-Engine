@@ -15,7 +15,7 @@ spec:
           restartPolicy: OnFailure
           containers:
           - name: image-builder
-            image: registry.k8s.io/scl-image-builder/cluster-node-image-builder-amd64:v0.1.50
+            image: registry.k8s.io/scl-image-builder/cluster-node-image-builder-amd64:v0.1.55
             envFrom:
             - secretRef:
                 name: proxmox-image-build-config
