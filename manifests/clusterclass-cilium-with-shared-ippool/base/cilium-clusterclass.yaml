@@ -31,6 +31,8 @@ spec:
       apiVersion: infrastructure.cluster.x-k8s.io/v1alpha2
       kind: ProxmoxClusterTemplate
       name: proxmox-clusterclass-cilium-v0.1.0-clustertemplate
+    namingStrategy:
+          template: "{{ .cluster.name }}"
   workers:
     machineDeployments:
     - bootstrap:
