@@ -9,7 +9,6 @@ resources:
   - templates/svc-lb
   - templates/kubeadm-config-template.yaml
   - templates/kubeadm-control-plane-template.yaml
-  - templates/proxmox-cluster-template.yaml
   - templates/proxmox-machine-template-cp.yaml
   - templates/proxmox-machine-template-worker.yaml
 

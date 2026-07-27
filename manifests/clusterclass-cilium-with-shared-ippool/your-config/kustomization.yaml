@@ -6,3 +6,4 @@ resources:
 - ip-pool.yaml
 - secret-proxmox-cluster-csi.yaml
 - secret-capmox.yaml
+- proxmox-cluster-template.yaml
