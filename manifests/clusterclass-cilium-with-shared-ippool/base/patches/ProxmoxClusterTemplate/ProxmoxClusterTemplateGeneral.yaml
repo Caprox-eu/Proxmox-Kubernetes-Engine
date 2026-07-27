@@ -26,3 +26,7 @@
             path: /spec/template/spec/dnsServers
             valueFrom:
               variable: dnsServers
+          - op: add
+            path: /spec/template/spec/ipv4Config
+            valueFrom:
+              variable: ipv4Config

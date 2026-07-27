@@ -47,3 +47,9 @@ spec:
     - name: controlPlaneEndpoint
       value:
         host: 192.168.178.210
+    - name: ipv4Config
+      value:
+        addresses:
+        - 192.168.178.150-192.168.178.199
+        gateway: 192.168.178.1
+        prefix: 24
