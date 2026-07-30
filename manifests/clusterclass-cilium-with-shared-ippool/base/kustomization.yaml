@@ -82,3 +82,6 @@ patches:
   - path: patches/ProxmoxMachineTemplate/WorkerNodeBootDisk.yaml
     target:
       kind: ClusterClass
+  - path: patches/ProxmoxMachineTemplate/NodeVmIDRange.yaml
+    target:
+      kind: ClusterClass

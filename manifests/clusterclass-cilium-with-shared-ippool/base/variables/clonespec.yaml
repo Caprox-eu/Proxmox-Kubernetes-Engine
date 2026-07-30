@@ -9,6 +9,18 @@
         required:
         - vmTemplate
         properties:
+          vmIDRange:
+            properties:
+              end:
+                format: int64
+                type: integer
+              start:
+                format: int64
+                type: integer
+            type: object
+            x-kubernetes-validations:
+            - message: end should be greater than or equal to start
+              rule: self.end >= self.start
           sshAuthorizedKeys:
             type: array
             items:
