@@ -1,0 +1,17 @@
+- op: add
+  path: /spec/patches/-
+  value:
+    name: ControlPlanePostKubeadmCommands
+    description: "Add kubeadm post commands"
+    enabledIf: "{{ if .controlPlaneConfig.postInitCommands }}true{{ end }}"
+    definitions:
+      - selector:
+          apiVersion: controlplane.cluster.x-k8s.io/v1beta2
+          kind: KubeadmControlPlaneTemplate
+          matchResources:
+            controlPlane: true
+        jsonPatches:
+          - op: replace
+            path: /spec/template/spec/kubeadmConfigSpec/postKubeadmCommands
+            valueFrom:
+              variable: controlPlaneConfig.postInitCommands

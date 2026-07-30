@@ -36,16 +36,31 @@ patches:
   - path: variables/kube-proxy.yaml
     target:
       kind: ClusterClass
+  - path: variables/controlPlaneConfig.yaml
+    target:
+      kind: ClusterClass
+  - path: variables/workerNodeConfig.yaml
+    target:
+      kind: ClusterClass
   # Patches for ClusterClass
+  # KubeadmConfigTemplate
   - path: patches/KubeadmConfigTemplate/WorkerNodeSetup.yaml
     target:
       kind: ClusterClass
+  - path: patches/KubeadmConfigTemplate/WorkerNodePostKubeadmCommands.yaml
+    target:
+      kind: ClusterClass
+  # KubeadmControlPlaneTemplate
   - path: patches/KubeadmControlPlaneTemplate/ControlPlaneSetup.yaml
     target:
       kind: ClusterClass
   - path: patches/KubeadmControlPlaneTemplate/kube-proxy-setup.yaml
     target:
       kind: ClusterClass
+  - path: patches/KubeadmControlPlaneTemplate/ControlPlanePostKubeadmCommands.yaml
+    target:
+      kind: ClusterClass
+  # ProxmoxClusterTemplate
   - path: patches/ProxmoxClusterTemplate/ProxmoxClusterTemplateGeneral.yaml
     target:
       kind: ClusterClass

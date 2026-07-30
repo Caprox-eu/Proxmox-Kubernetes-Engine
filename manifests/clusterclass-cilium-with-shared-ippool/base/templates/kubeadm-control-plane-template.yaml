@@ -61,6 +61,8 @@ spec:
             permissions: "0700"
         preKubeadmCommands:
           - /etc/kube-vip-prepare.sh
+        postKubeadmCommands:
+          - 'echo "kubeadm completed"'
         initConfiguration:
           nodeRegistration:
             kubeletExtraArgs:

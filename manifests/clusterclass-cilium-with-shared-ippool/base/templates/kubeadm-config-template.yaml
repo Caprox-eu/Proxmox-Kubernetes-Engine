@@ -12,3 +12,5 @@ spec:
               value: "proxmox://'{{ ds.meta_data.instance_id }}'"
             - name: cloud-provider
               value: external
+      postKubeadmCommands:
+      - 'echo "kubeadm completed"'
