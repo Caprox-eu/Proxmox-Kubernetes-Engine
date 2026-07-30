@@ -3,7 +3,7 @@
   value:
     name: WorkerNodeDefaultNetwork
     description: "Configure WorkerNode Network Adapters"
-    enabledIf: "{{ if .cloneSpec.machineSpec.workerNode.network }}true{{ end }}"
+    enabledIf: "{{ if .cloneSpec.network }}true{{ end }}"
     definitions:
       - selector:
           apiVersion: infrastructure.cluster.x-k8s.io/v1alpha2
@@ -15,6 +15,6 @@
               - proxmox-worker
         jsonPatches:
           - op: add
-            path: /spec/template/spec/network
+            path: /spec/template/spec/network/networkDevices/0
             valueFrom:
-              variable: cloneSpec.machineSpec.workerNode.network
+              variable: cloneSpec.network

@@ -11,7 +11,4 @@ spec:
       format: qcow2
       full: true
       network:
-        networkDevices:
-          - name: net0 
-            bridge: vmbr0
-            model: virtio
+        networkDevices: []

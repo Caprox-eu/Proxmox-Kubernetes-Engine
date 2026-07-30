@@ -30,7 +30,12 @@ spec:
       value:
         vmTemplate:
           templateTag: "v1-34-10"
-        #Example of if you want to modify node resources
+        network:
+          bridge: vmbr0
+        #Example if you want to modify the default network interface
+        # vlan: 100 
+        # model: virtio
+        #Example if you want to modify node resources
         #machineSpec:
         #  controlPlane:
         #    numCores: 2
