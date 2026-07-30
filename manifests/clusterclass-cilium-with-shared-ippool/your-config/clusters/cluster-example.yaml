@@ -28,6 +28,8 @@ spec:
     variables:
     - name: cloneSpec
       value:
+        # sshAuthorizedKeys: 
+        # - "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC0Z7+6k"
         vmTemplate:
           templateTag: "v1-34-10"
         #vmIDRange:
@@ -52,6 +54,14 @@ spec:
         #      bootVolume:
         #        disk: scsi0
         #        sizeGb: 80
+    #- name: workerNodeConfig
+    #  value: 
+    #    postInitCommands:
+    #    - 'touch /root/workerNodeConfig.txt'
+    #- name: controlPlaneConfig
+    #  value: 
+    #    postInitCommands: 
+    #    - 'touch /root/controlplaneNodeConfig.txt'
     - name: controlPlaneEndpoint
       value:
         host: 192.168.178.150

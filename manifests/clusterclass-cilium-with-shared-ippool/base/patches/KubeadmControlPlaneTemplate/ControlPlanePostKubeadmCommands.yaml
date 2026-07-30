@@ -11,7 +11,7 @@
           matchResources:
             controlPlane: true
         jsonPatches:
-          - op: replace
+          - op: add
             path: /spec/template/spec/kubeadmConfigSpec/postKubeadmCommands
             valueFrom:
               variable: controlPlaneConfig.postInitCommands

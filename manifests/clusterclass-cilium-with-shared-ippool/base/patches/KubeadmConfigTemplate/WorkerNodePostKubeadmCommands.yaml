@@ -13,7 +13,7 @@
               names:
               - proxmox-worker
         jsonPatches:
-          - op: replace
+          - op: add
             path: /spec/template/spec/postKubeadmCommands
             valueFrom:
               variable: workerNodeConfig.postInitCommands
