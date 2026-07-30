@@ -30,11 +30,11 @@ spec:
       value:
         vmTemplate:
           templateTag: "v1-34-10"
-        network:
-          bridge: vmbr0
         #vmIDRange:
         #  start: 200
         #  end: 300
+        network:
+          bridge: vmbr0
         #Example if you want to modify the default network interface
         # vlan: 100 
         # model: virtio
