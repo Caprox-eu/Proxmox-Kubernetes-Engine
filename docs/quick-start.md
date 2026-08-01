@@ -456,31 +456,6 @@ Create the secret.
 sudo k3s kubectl apply -f secret-proxmox-cluster-storage.yaml
 ```
 
-### Configure IP Range for the Cluster-API Caprox Kubernetes Engine
-The Virtual Machines (VMs) provisioned by Proxmox/Cluster-API will require IP addresses. Currently, DHCP support is [not available](https://github.com/ionos-cloud/cluster-api-provider-proxmox/issues/29). However, we can specify an IP pool for our Kubernetes VMs. In my setup, I've disabled DHCP for a range of IPs within my FritzBox. (Note: It's recommended to disable DHCP for more IPs than you initially anticipate needing – more on this later.)
-
-Copy this file, configure it for your network, then save and apply it.
-
-```yaml
-# ip-pool.yaml
-apiVersion: ipam.cluster.x-k8s.io/v1alpha2
-kind: InClusterIPPool
-metadata:
-  name: clusterclass-ipv4
-  namespace: caprox-kubernetes-engine
-spec:
-  # Change the IP range to match your needs
-  # These IPs will be used for the Kubernetes nodes
-  # Also configure your network prefix and gateway accordingly
-  addresses:
-  - 192.168.2.100-192.168.2.149
-  gateway: 192.168.2.1
-  prefix: 24
-```
-```bash
-sudo k3s kubectl apply -f ip-pool.yaml
-```
-
 That's it! We've successfully installed ArgoCD on our Management VM, used ArgoCD to install Cluster-API, and configured Cluster-API for our environment. Now we're finally ready to create our first multi-node Kubernetes cluster!
 
 ## Create our first Workload Cluster
@@ -489,7 +464,7 @@ As always everthing is a file - same is true for a Kubernetes Cluster in Cluster
 ### The Cluster Resource
 A cluster configuration which is compatible with our setup could look like this.
 ```yaml
-# configure controlPlaneEndpoint
+# configure controlPlaneEndpoint & ipv4Config
 apiVersion: cluster.x-k8s.io/v1beta2
 kind: Cluster
 metadata:
@@ -519,9 +494,21 @@ spec:
     variables:
     - name: cloneSpec
       value:
+        # sshAuthorizedKeys: 
+        # - "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC0Z7+6k"
         vmTemplate:
           templateTag: "v1-34-10"
-        #Example of if you want to modify node resources
+        #vmIDRange:
+        #  start: 200
+        #  end: 300
+        # immutable until this is merged:
+        # https://github.com/ionos-cloud/cluster-api-provider-proxmox/pull/832
+        network:
+          bridge: vmbr0
+        #Example if you want to modify the default network interface
+        # vlan: 100 
+        # model: virtio
+        #Example if you want to modify node resources
         #machineSpec:
         #  controlPlane:
         #    numCores: 2
@@ -535,9 +522,23 @@ spec:
         #      bootVolume:
         #        disk: scsi0
         #        sizeGb: 80
+    #- name: workerNodeConfig
+    #  value: 
+    #    postInitCommands:
+    #    - 'touch /root/workerNodeConfig.txt'
+    #- name: controlPlaneConfig
+    #  value: 
+    #    postInitCommands: 
+    #    - 'touch /root/controlplaneNodeConfig.txt'
     - name: controlPlaneEndpoint
       value:
-        host: 192.168.178.210
+        host: 192.168.178.150
+    - name: ipv4Config
+      value:
+        addresses:
+        - 192.168.178.151-192.168.178.159
+        gateway: 192.168.178.1
+        prefix: 24
 ```
 
 The fields you **must** change are:
@@ -546,6 +547,11 @@ The fields you **must** change are:
     * This IP address will be used to access your Kubernetes cluster.
     * Ensure it's outside your defined IP pool range.
     * This is a floating IP, shared among different nodes. This ensures your cluster remains reachable even during node failures or maintenance, as long as at least one node is available.
+
+* **`ipv4Config`**:
+    * These IP addresses will be used for your Cluster Nodes.
+    * If you wish to have multiple clusters, you must specify different ranges for each cluster.
+    * Ensure it's outside your network DHCP range.
 
 The fields you **can** change are:
 
