@@ -5,14 +5,21 @@
     required: false
     schema:
       openAPIV3Schema:
-        type: object
         properties:
           addresses:
-            minItems: 1
-            type: array
+            default:
+            - 10.10.10.10-10.10.10.15
             items:
               type: string
-          prefix:
-            type: integer
+            minItems: 1
+            type: array
           gateway:
+            default: 10.10.10.1
             type: string
+          metric:
+            default: 100
+            type: integer
+          prefix:
+            default: 24
+            type: integer
+        type: object

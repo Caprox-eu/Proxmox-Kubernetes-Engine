@@ -9,6 +9,18 @@
         required:
         - vmTemplate
         properties:
+          vmIDRange:
+            properties:
+              end:
+                format: int64
+                type: integer
+              start:
+                format: int64
+                type: integer
+            type: object
+            x-kubernetes-validations:
+            - message: end should be greater than or equal to start
+              rule: self.end >= self.start
           sshAuthorizedKeys:
             type: array
             items:
@@ -27,12 +39,216 @@
               templateTag:
                 type: string
                 example: "1.34.2"
+          network:
+            type: object
+            required:
+            - bridge
+            properties:
+              bridge:
+                type: string
+                default: vmbr0
+              defaultIPv4:
+                type: boolean
+              defaultIPv6:
+                type: boolean
+              dnsServers:
+                items:
+                  type: string
+                type: array
+              ipPoolRef:
+                items:
+                  properties:
+                    apiGroup:
+                      type: string
+                    kind:
+                      type: string
+                    name:
+                      type: string
+                  type: object
+                type: array
+              linkMtu:
+                format: int32
+                type: integer
+              model:
+                default: virtio
+                enum:
+                - e1000
+                - virtio
+                - rtl8139
+                - vmxnet3
+                type: string
+              mtu:
+                format: int32
+                type: integer
+              name:
+                type: string
+              routes:
+                items:
+                  properties:
+                    metric:
+                      format: int32
+                      type: integer
+                    table:
+                      format: int32
+                      type: integer
+                    to:
+                      type: string
+                    via:
+                      type: string
+                  type: object
+                type: array
+              routingPolicy:
+                items:
+                  properties:
+                    from:
+                      type: string
+                    priority:
+                      format: int64
+                      type: integer
+                    table:
+                      format: int32
+                      type: integer
+                    to:
+                      type: string
+                  type: object
+                type: array
+              vlan:
+                format: int32
+                type: integer
+              vrfs:
+                description: vrfs defines VRF Devices.
+                items:
+                  description: VRFDevice defines Virtual Routing
+                    Flow devices.
+                  properties:
+                    interfaces:
+                      description: interfaces is the list of
+                        proxmox network devices managed by this
+                        virtual device.
+                      items:
+                        description: NetName is a formally verified
+                          Proxmox network name string.
+                        pattern: ^net[0-9]+$
+                        type: string
+                      type: array
+                      x-kubernetes-list-type: atomic
+                    name:
+                      description: |-
+                        name is the virtual network device name.
+                        Must be unique within the virtual machine.
+                      minLength: 3
+                      type: string
+                    routes:
+                      description: routes are the routes associated
+                        with this interface.
+                      items:
+                        description: RouteSpec describes an
+                          IPv4/IPv6 Route.
+                        properties:
+                          metric:
+                            description: metric is the priority
+                              of the route in the routing table.
+                            format: int32
+                            minimum: 0
+                            type: integer
+                          table:
+                            description: table is the routing
+                              table used for this route.
+                            format: int32
+                            type: integer
+                          to:
+                            description: to is the subnet to
+                              be routed.
+                            type: string
+                          via:
+                            description: via is the gateway
+                              to the subnet.
+                            type: string
+                        type: object
+                      minItems: 1
+                      type: array
+                      x-kubernetes-list-type: atomic
+                    routingPolicy:
+                      description: routingPolicy is an interface-specific
+                        policy inserted into FIB (forwarding
+                        information base).
+                      items:
+                        description: RoutingPolicySpec is a
+                          Linux FIB rule.
+                        properties:
+                          from:
+                            description: from is the subnet
+                              of the source.
+                            type: string
+                          priority:
+                            description: priority is the position
+                              in the ip rule FIB table.
+                            format: int64
+                            maximum: 4294967295
+                            type: integer
+                            x-kubernetes-validations:
+                            - message: Cowardly refusing to
+                                insert FIB rule matching kernel
+                                rules
+                              rule: (self > 0 && self < 32765)
+                                || (self > 32766)
+                          table:
+                            description: table is the routing
+                              table ID.
+                            format: int32
+                            type: integer
+                          to:
+                            description: to is the subnet of
+                              the target.
+                            type: string
+                        type: object
+                      minItems: 1
+                      type: array
+                      x-kubernetes-list-type: atomic
+                    table:
+                      description: table is the ID of the routing
+                        table used for the l3mdev vrf device.
+                      format: int32
+                      maximum: 4294967295
+                      minimum: 1
+                      type: integer
+                      x-kubernetes-validations:
+                      - message: Cowardly refusing to insert
+                          l3mdev rules into kernel tables
+                        rule: (self > 0 && self < 254) || (self
+                          > 255)
+                  required:
+                  - name
+                  - table
+                  type: object
+                type: array
+                x-kubernetes-list-map-keys:
+                - name
+                x-kubernetes-list-type: map
+              zone:
+                type: string
+
           machineSpec:
             type: object
             properties:
               controlPlane: &machineSpec
                 type: object
                 properties:
+                  memoryMiB:
+                    type: integer
+                    example: 2048
+                  numCores:
+                    type: integer
+                    example: 1
+                  numSockets:
+                    type: integer
+                    example: 1
+                  sourceNode:
+                    type: string
+                    example: pve1
+                  templateID:
+                    type: integer
+                    example: 100
                   disks:
                     type: object
                     properties:
@@ -51,172 +267,4 @@
                   format:
                     type: string
                     enum: [raw, qcow2, vmdk]
-                  network:
-                    type: object
-                    properties:
-                      additionalDevices:
-                        type: array
-                        items:
-                          type: object
-                          properties:
-                            bridge:
-                              type: string
-                            dnsServers:
-                              type: array
-                              items:
-                                type: string
-                            ipv4PoolRef:
-                              type: object
-                              properties:
-                                apiGroup:
-                                  default: ipam.cluster.x-k8s.io
-                                  type: string
-                                kind:
-                                  default: GlobalInClusterIPPool
-                                  type: string
-                                name:
-                                  default: shared-inclusteripv4pool
-                                  type: string
-                              required:
-                              - kind
-                              - name
-                            ipv6PoolRef:
-                              type: object
-                              properties:
-                                apiGroup:
-                                  default: ipam.cluster.x-k8s.io
-                                  type: string
-                                kind:
-                                  default: GlobalInClusterIPPool
-                                  type: string
-                                name:
-                                  default: shared-inclusteripv6pool
-                                  type: string
-                              required:
-                              - kind
-                              - name
-                            model:
-                              type: string
-                              default: virtio
-                              enum: [e1000, virtio, rtl8139, vmxnet3]
-                            name:
-                              minLength: 1
-                              type: string
-                        required:
-                        - bridge
-                        - name
-                      default:
-                        type: object
-                        properties:
-                          bridge:
-                            type: string
-                          model:
-                            type: string
-                            default: virtio
-                            enum: [e1000, virtio, rtl8139, vmxnet3]
-                        required:
-                        - bridge
-                      vrfs:
-                        type: array
-                        items:
-                          type: object
-                          properties:
-                            dnsServers:
-                              type: array
-                              items:
-                                type: string
-                            interfaces:
-                              type: array
-                              items:
-                                type: string
-                              description: parent interfaces of a vrf device
-                            ipv4PoolRef:
-                              type: object
-                              properties:
-                                apiGroup:
-                                  default: ipam.cluster.x-k8s.io
-                                  type: string
-                                kind:
-                                  default: GlobalInClusterIPPool
-                                  type: string
-                                name:
-                                  default: shared-inclusterippool
-                                  type: string
-                              required:
-                              - kind
-                              - name
-                            ipv6PoolRef:
-                              type: object
-                              properties:
-                                apiGroup:
-                                  default: ipam.cluster.x-k8s.io
-                                  type: string
-                                kind:
-                                  default: GlobalInClusterIPPool
-                                  type: string
-                                name:
-                                  default: shared-inclusteripv4pool
-                                  type: string
-                              required:
-                              - kind
-                              - name
-                            name:
-                              minLength: 1
-                              type: string
-                            routes:
-                              type: array
-                              minItems: 1
-                              items:
-                                type: object
-                                properties:
-                                  metric:
-                                    format: int32
-                                    type: integer
-                                  table:
-                                    format: int32
-                                    type: integer
-                                  to:
-                                    type: string
-                                  via:
-                                    type: string
-                            routingPolicy:
-                              type: array
-                              minItems: 1
-                              items:
-                                type: object
-                                properties:
-                                  from:
-                                    type: string
-                                  priority:
-                                    type: integer
-                                    format: int32
-                              table:
-                                format: int32
-                                type: integer
-                              to:
-                                type: string
-                            table:
-                              format: int32
-                              type: integer
-                          required:
-                          - name
-                          - table
-                    required:
-                    - default
-                  memoryMiB:
-                    type: integer
-                    example: 2048
-                  numCores:
-                    type: integer
-                    example: 1
-                  numSockets:
-                    type: integer
-                    example: 1
-                  sourceNode:
-                    type: string
-                    example: pve1
-                  templateID:
-                    type: integer
-                    example: 100
               workerNode: *machineSpec
-              loadBalancer: *machineSpec

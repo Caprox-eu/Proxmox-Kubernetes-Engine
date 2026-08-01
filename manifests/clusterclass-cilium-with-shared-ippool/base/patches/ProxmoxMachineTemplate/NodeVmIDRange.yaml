@@ -1,20 +1,21 @@
 - op: add
   path: /spec/patches/-
   value:
-    name: WorkerNodeDefaultNetwork
-    description: "Configure WorkerNode Network Adapters"
-    enabledIf: "{{ if .cloneSpec.network }}true{{ end }}"
+    name: NodeVmIDRange
+    description: "Configure VM ID Range for all ProoxmoxMachineTemplates"
+    enabledIf: "{{ if .cloneSpec.vmIDRange }}true{{ end }}"
     definitions:
       - selector:
           apiVersion: infrastructure.cluster.x-k8s.io/v1alpha2
           kind: ProxmoxMachineTemplate
           matchResources:
-            controlPlane: false
+            controlPlane: true
             machineDeploymentClass:
               names:
               - proxmox-worker
         jsonPatches:
-          - op: add
-            path: /spec/template/spec/network/networkDevices/0
+          - op: add 
+            path: /spec/template/spec/vmIDRange 
             valueFrom:
-              variable: cloneSpec.network
+              template: |
+                {{ toJson .cloneSpec.vmIDRange }}
