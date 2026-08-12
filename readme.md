@@ -36,7 +36,7 @@ Cluster API currently boasts over 30 infrastructure providers, with Proxmox bein
 
 In my opinion, they are a perfect match for a modern, open-source, Kubernetes-based private cloud.
 
-## Sponsors
+## Sponsored by
 
 ![[Prof. Schumann GmbH](https://prof-schumann.com/)](https://www.it-in-goe.de/assets/mime/-UTQ3ZXCddy33J0ltD2VlfLyOVPuGyaw59JSZYZBTqyUeHlRAbW005AbN4XwwRAn1cmp,ZrqUKZ2zcw==/SCHUMANN-RGB-Farbe-PNG.png.jpg)
 
