@@ -8,5 +8,4 @@
         type: array
         items:
           type: string
-        default: []
         example: ["pve1", "pve2", "pve3"]

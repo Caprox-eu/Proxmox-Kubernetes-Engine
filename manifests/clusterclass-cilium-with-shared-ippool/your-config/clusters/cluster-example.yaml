@@ -64,6 +64,12 @@ spec:
     #  value: 
     #    postInitCommands: 
     #    - 'touch /root/controlplaneNodeConfig.txt'
+    # configure this if you have a multi-node proxmox cluster
+    #- name: allowedNodes
+    #  value:
+    #  - pve-1
+    #  - pve-2
+    #  - pve-3
     - name: controlPlaneEndpoint
       value:
         host: 192.168.178.150

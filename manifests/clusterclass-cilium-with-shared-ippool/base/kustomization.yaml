@@ -64,6 +64,10 @@ patches:
   - path: patches/ProxmoxClusterTemplate/ProxmoxClusterTemplateGeneral.yaml
     target:
       kind: ClusterClass
+  - path: patches/ProxmoxClusterTemplate/ProxmoxClusterAllowedNodes.yaml
+    target:
+      kind: ClusterClass
+# ProxmoxMachineTemplate
   - path: patches/ProxmoxMachineTemplate/ControlPlaneCloneDiskFormat.yaml
     target:
       kind: ClusterClass
