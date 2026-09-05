@@ -6,12 +6,12 @@ metadata:
   namespace: argocd 
 spec:
   destination:
-    namespace: capi-operator-system
+    namespace: cert-manager
     server: https://kubernetes.default.svc
   project: default
   source:
     repoURL: https://charts.jetstack.io
-    targetRevision: 1.20.2
+    targetRevision: 1.21.1
     chart: cert-manager
     helm:
       values: |
