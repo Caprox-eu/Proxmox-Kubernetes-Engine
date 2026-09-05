@@ -12,3 +12,28 @@
             items:
               type: string
             default: []
+          oidc:
+            type: object
+            description: "OIDC configuration for the API server"
+            required:
+              - issuerUrl
+              - clientId
+            properties:
+              issuerUrl:
+                type: string
+                description: "e.g., https://login.microsoftonline.com/<TENANT_ID>/v2.0"
+              clientId:
+                type: string
+                description: "The Application (client) ID"
+              usernameClaim:
+                type: string
+                default: "email"
+              usernamePrefix:
+                type: string
+                default: "oidc:"
+              groupsClaim:
+                type: string
+                default: "groups"
+              groupsPrefix:
+                type: string
+                default: "oidc:"

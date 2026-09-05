@@ -60,6 +60,9 @@ patches:
   - path: patches/KubeadmControlPlaneTemplate/ControlPlanePostKubeadmCommands.yaml
     target:
       kind: ClusterClass
+  - path: patches/KubeadmControlPlaneTemplate/ControlPlaneOIDCConfig.yaml
+    target:
+      kind: ClusterClass
   # ProxmoxClusterTemplate
   - path: patches/ProxmoxClusterTemplate/ProxmoxClusterTemplateGeneral.yaml
     target:

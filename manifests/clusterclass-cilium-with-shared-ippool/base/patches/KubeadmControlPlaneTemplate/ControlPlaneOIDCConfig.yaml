@@ -1,0 +1,31 @@
+- op: add
+  path: /spec/patches/-
+  value:
+    name: ControlPlaneOIDCConfig
+    description: "Add OIDC arguments to kube-apiserver if configured"
+    enabledIf: "{{ if .controlPlaneConfig.oidc }}true{{ end }}"
+    definitions:
+      - selector:
+          apiVersion: controlplane.cluster.x-k8s.io/v1beta2
+          kind: KubeadmControlPlaneTemplate
+          matchResources:
+            controlPlane: true
+        jsonPatches:
+          - op: add
+            path: /spec/template/spec/kubeadmConfigSpec/clusterConfiguration
+            valueFrom:
+              template: |
+                apiServer:
+                  extraArgs:
+                    - name: oidc-issuer-url
+                      value: "{{ .controlPlaneConfig.oidc.issuerUrl }}"
+                    - name: oidc-client-id
+                      value: "{{ .controlPlaneConfig.oidc.clientId }}"
+                    - name: oidc-username-claim
+                      value: "{{ .controlPlaneConfig.oidc.usernameClaim }}"
+                    - name: oidc-username-prefix
+                      value: "{{ .controlPlaneConfig.oidc.usernamePrefix }}"
+                    - name: oidc-groups-claim
+                      value: "{{ .controlPlaneConfig.oidc.groupsClaim }}"
+                    - name: oidc-groups-prefix
+                      value: "{{ .controlPlaneConfig.oidc.groupsPrefix }}"
