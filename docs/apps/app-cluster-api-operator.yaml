@@ -13,46 +13,46 @@ spec:
   project: default
   source:
     repoURL: https://kubernetes-sigs.github.io/cluster-api-operator
-    targetRevision: 0.26.0
+    targetRevision: 0.28.0
     chart: cluster-api-operator
     helm:
       values: |
         core:
           cluster-api:
             enabled: true
-            version: v1.11.10
+            version: v1.12.11
             manager:
               featureGates:
                 ClusterTopology: true
         bootstrap:
           kubeadm: 
             enabled: true
-            version: v1.11.10
+            version: v1.12.11
             manager:
               featureGates:
                 ClusterTopology: true
         controlPlane: 
           kubeadm: 
             enabled: true
-            version: v1.11.10
+            version: v1.12.11
             manager:
               featureGates:
                 ClusterTopology: true
         infrastructure: 
           proxmox:
             enabled: true
-            version: v0.8.1
+            version: v0.9.0
             manager:
               featureGates:
                 ClusterTopology: true
         ipam:
           in-cluster:
             enabled: true
-            version: v1.0.3
+            version: v1.1.0
         addon:
           helm: 
             enabled: true
-            version: v0.5.3
+            version: v0.6.2
   syncPolicy:
     syncOptions:
     - CreateNamespace=true

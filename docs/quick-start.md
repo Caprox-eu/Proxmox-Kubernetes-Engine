@@ -35,13 +35,13 @@ To install K3s, we'll use **`k3sup`** - a really simple CLI tool that allows you
 # install k3s-Kubernetes with k3sup
 curl -sLS https://get.k3sup.dev | sh
 sudo cp k3sup /usr/local/bin/k3sup
-k3sup install --local --k3s-version v1.34.1+k3s1
+k3sup install --local --k3s-version v1.35.8+k3s1
 ```
 You can test if the cluster is working with `sudo k3s kubectl get nodes`. It should show something like this:
 ```bash
 sudo k3s kubectl get nodes
 NAME        STATUS   ROLES                  AGE     VERSION
-localhost   Ready    control-plane,master   6m30s   v1.34.1+k3s1
+localhost   Ready    control-plane,master   6m30s   v1.35.8+k3s1
 ```
 Congratulations! You've successfully set up a simple single-node Kubernetes cluster. This cluster will serve as our Cluster API Management VM.
 
@@ -97,10 +97,10 @@ stringData:
   PROXMOX_STORAGE_POOL: "local" #this should be fine for the most users
   PACKER_FLAGS: >-
    --var memory=4096 
-   --var kubernetes_rpm_version=1.34.10
-   --var kubernetes_semver=v1.34.10
-   --var kubernetes_series=v1.34
-   --var kubernetes_deb_version=1.34.10-1.1
+   --var kubernetes_rpm_version=1.35.8
+   --var kubernetes_semver=v1.35.8
+   --var kubernetes_series=v1.35
+   --var kubernetes_deb_version=1.35.8-1.1
 ```
 Configure needed values and save the File.
 
@@ -128,7 +128,7 @@ spec:
           restartPolicy: OnFailure
           containers:
           - name: image-builder
-            image: registry.k8s.io/scl-image-builder/cluster-node-image-builder-amd64:v0.1.50
+            image: registry.k8s.io/scl-image-builder/cluster-node-image-builder-amd64:v0.1.55
             envFrom:
             - secretRef:
                 name: proxmox-image-build-config
@@ -206,12 +206,12 @@ metadata:
   namespace: argocd 
 spec:
   destination:
-    namespace: capi-operator-system
+    namespace: cert-manager
     server: https://kubernetes.default.svc
   project: default
   source:
     repoURL: https://charts.jetstack.io
-    targetRevision: 1.20.2
+    targetRevision: 1.21.1
     chart: cert-manager
     helm:
       values: |
@@ -240,46 +240,46 @@ spec:
   project: default
   source:
     repoURL: https://kubernetes-sigs.github.io/cluster-api-operator
-    targetRevision: 0.26.0
+    targetRevision: 0.28.0
     chart: cluster-api-operator
     helm:
       values: |
         core:
           cluster-api:
             enabled: true
-            version: v1.11.10
+            version: v1.12.11
             manager:
               featureGates:
                 ClusterTopology: true
         bootstrap:
           kubeadm: 
             enabled: true
-            version: v1.11.10
+            version: v1.12.11
             manager:
               featureGates:
                 ClusterTopology: true
         controlPlane: 
           kubeadm: 
             enabled: true
-            version: v1.11.10
+            version: v1.12.11
             manager:
               featureGates:
                 ClusterTopology: true
         infrastructure: 
           proxmox:
             enabled: true
-            version: v0.8.1
+            version: v0.9.0
             manager:
               featureGates:
                 ClusterTopology: true
         ipam:
           in-cluster:
             enabled: true
-            version: v1.0.3
+            version: v1.1.0
         addon:
           helm: 
             enabled: true
-            version: v0.5.3
+            version: v0.6.2
   syncPolicy:
     syncOptions:
     - CreateNamespace=true
@@ -304,7 +304,7 @@ spec:
   project: default
   source:
     repoURL: https://github.com/Caprox-eu/Proxmox-Kubernetes-Engine.git
-    targetRevision: v0.0.5
+    targetRevision: v0.0.6
     path: manifests/clusterclass-cilium-with-shared-ippool/base
   syncPolicy:
     syncOptions:
@@ -464,7 +464,7 @@ As always everthing is a file - same is true for a Kubernetes Cluster in Cluster
 ### The Cluster Resource
 A cluster configuration which is compatible with our setup could look like this.
 ```yaml
-# configure controlPlaneEndpoint & ipv4Config
+# configure controlPlaneEndpoint + ipv4Config
 apiVersion: cluster.x-k8s.io/v1beta2
 kind: Cluster
 metadata:
@@ -483,7 +483,9 @@ spec:
     classRef: 
       name: proxmox-clusterclass-cilium-v0.1.0
       namespace: caprox-kubernetes-engine
-    version: 1.34.10
+    # immutable until this is merged:
+    # https://github.com/ionos-cloud/cluster-api-provider-proxmox/pull/832
+    version: 1.35.8
     controlPlane:
       replicas: 1
     workers:
@@ -497,7 +499,7 @@ spec:
         # sshAuthorizedKeys: 
         # - "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC0Z7+6k"
         vmTemplate:
-          templateTag: "v1-34-10"
+          templateTag: "v1-35-10"
         #vmIDRange:
         #  start: 200
         #  end: 300
