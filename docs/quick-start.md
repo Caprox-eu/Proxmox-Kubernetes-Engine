@@ -375,7 +375,7 @@ stringData:
 kind: Secret
 metadata:
   name: capmox-manager-credentials
-  namespace: proxmox-infrastructure-system
+  namespace: caprox-kubernetes-engine
 ``` 
 
 Create the secret.
