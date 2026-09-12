@@ -1,59 +1,10 @@
-
-
----
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-  name: kube-vip
-  namespace: kube-system
----
-apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRole
-metadata:
-  annotations:
-    rbac.authorization.kubernetes.io/autoupdate: "true"
-  name: system:kube-vip-role
-rules:
-  - apiGroups: [""]
-    resources: ["services/status"]
-    verbs: ["update"]
-  - apiGroups: [""]
-    resources: ["services", "endpoints"]
-    verbs: ["list","get","watch", "update"]
-  - apiGroups: [""]
-    resources: ["nodes"]
-    verbs: ["list","get","watch", "update", "patch"]
-  - apiGroups: ["coordination.k8s.io"]
-    resources: ["leases"]
-    verbs: ["list", "get", "watch", "update", "create"]
-  - apiGroups: ["discovery.k8s.io"]
-    resources: ["endpointslices"]
-    verbs: ["list","get","watch", "update"]
-  - apiGroups: [""]
-    resources: ["pods"]
-    verbs: ["list"]
-
----
-kind: ClusterRoleBinding
-apiVersion: rbac.authorization.k8s.io/v1
-metadata:
-  name: system:kube-vip-binding
-roleRef:
-  apiGroup: rbac.authorization.k8s.io
-  kind: ClusterRole
-  name: system:kube-vip-role
-subjects:
-- kind: ServiceAccount
-  name: kube-vip
-  namespace: kube-system
----
 apiVersion: apps/v1
 kind: DaemonSet
 metadata:
   creationTimestamp: null
   labels:
     app.kubernetes.io/name: kube-vip-ds
-    app.kubernetes.io/version: v1.0.0
+    app.kubernetes.io/version: v1.2.3
   name: kube-vip-ds
   namespace: kube-system
 spec:
@@ -65,7 +16,7 @@ spec:
       creationTimestamp: null
       labels:
         app.kubernetes.io/name: kube-vip-ds
-        app.kubernetes.io/version: v1.0.0
+        app.kubernetes.io/version: v1.2.3
     spec:
       containers:
       - args:
@@ -79,7 +30,7 @@ spec:
               fieldPath: spec.nodeName
         - name: svc_enable
           value: "true"
-        image: ghcr.io/kube-vip/kube-vip:v1.0.0
+        image: ghcr.io/kube-vip/kube-vip:v1.2.3
         imagePullPolicy: IfNotPresent
         name: kube-vip
         resources: {}
