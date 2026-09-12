@@ -8,6 +8,7 @@ configMapGenerator:
     files:
       - sources/kube-vip-cloud-controller.yaml
       - sources/kube-vip-svc-lb.yaml
+      - sources/kube-vip-rbac.yaml
       - sources/cm.yaml
     options:
       disableNameSuffixHash: true

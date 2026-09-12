@@ -1,0 +1,8 @@
+- op: add
+  path: /spec/variables/-
+  value: 
+    name: ciliumHelmValues
+    required: false
+    schema:
+      openAPIV3Schema:
+        type: string

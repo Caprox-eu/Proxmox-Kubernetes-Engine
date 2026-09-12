@@ -4,7 +4,7 @@ kind: Cluster
 metadata:
   labels:
     # mandatory for functional cluster
-    caprox.eu/cni: cilium # or "caprox.eu/cni: cilium-ipv6-dual-stack" if you have ipv6 in your network
+    caprox.eu/cni: cilium
     caprox.eu/ccm: "true"
     caprox.eu/inject-proxmox-credentials: "true"
     # optional
@@ -71,6 +71,10 @@ spec:
     #      clientId: "960c6f04-4468-4dc9-962c-7d7fb3bcde83"
     #      usernameClaim: "email"
     #      groupsClaim: "groups"
+    #- name: ciliumHelmValues
+    #  value: 
+    #    ipv6:
+    #      enabled: true
     - name: controlPlaneEndpoint
       value:
         host: 192.168.178.150

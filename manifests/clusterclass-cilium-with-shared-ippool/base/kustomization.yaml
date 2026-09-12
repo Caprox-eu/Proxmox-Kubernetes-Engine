@@ -42,6 +42,9 @@ patches:
   - path: variables/workerNodeConfig.yaml
     target:
       kind: ClusterClass
+  - path: variables/cilium-helm-values.yaml
+    target:
+      kind: ClusterClass
   # Patches for ClusterClass
   # KubeadmConfigTemplate
   - path: patches/KubeadmConfigTemplate/WorkerNodeSetup.yaml

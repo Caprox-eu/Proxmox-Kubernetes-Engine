@@ -11,3 +11,11 @@ spec:
   repoURL: https://helm.cilium.io/
   chartName: cilium
   namespace: kube-system
+  valuesTemplate: |
+    {{- $customValues := "" -}}
+    {{- range .Cluster.spec.topology.variables -}}
+      {{- if eq .name "ciliumHelmValues" -}}
+        {{- $customValues = .value -}}
+      {{- end -}}
+    {{- end -}}
+    {{ $customValues }}
