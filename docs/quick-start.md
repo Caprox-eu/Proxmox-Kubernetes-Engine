@@ -97,10 +97,10 @@ stringData:
   PROXMOX_STORAGE_POOL: "local" #this should be fine for the most users
   PACKER_FLAGS: >-
    --var memory=4096 
-   --var kubernetes_rpm_version=1.35.8
-   --var kubernetes_semver=v1.35.8
+   --var kubernetes_rpm_version=1.35.9
+   --var kubernetes_semver=v1.35.9
    --var kubernetes_series=v1.35
-   --var kubernetes_deb_version=1.35.8-1.1
+   --var kubernetes_deb_version=1.35.9-1.1
 ```
 Configure needed values and save the File.
 
@@ -171,7 +171,7 @@ Please ensure that you have DHCP configured in your network. If you encounter an
 
 If you're lucky, you should see a new template in the UI after a few minutes.![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/ebymhlsjwkqa2o49bhek.png)
 
-In order for the Cluster API to find our template later, we need to add a tag named **`v1-34-10`** to the template.
+In order for the Cluster API to find our template later, we need to add a tag named **`v1-35-9`** to the template.
 ![Tag](https://i.imgur.com/QrPsQxQ.png)
 
 This step will be automated when [this](https://github.com/kubernetes-sigs/image-builder/pull/1914) is merged and released.
@@ -485,7 +485,7 @@ spec:
       namespace: caprox-kubernetes-engine
     # immutable until this is merged:
     # https://github.com/ionos-cloud/cluster-api-provider-proxmox/pull/832
-    version: 1.35.8
+    version: 1.35.9
     controlPlane:
       replicas: 1
     workers:
@@ -499,7 +499,7 @@ spec:
         # sshAuthorizedKeys: 
         # - "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC0Z7+6k"
         vmTemplate:
-          templateTag: "v1-35-10"
+          templateTag: "v1-35-9"
         #vmIDRange:
         #  start: 200
         #  end: 300
