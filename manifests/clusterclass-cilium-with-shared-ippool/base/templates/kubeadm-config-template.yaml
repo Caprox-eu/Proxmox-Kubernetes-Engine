@@ -1,7 +1,7 @@
 kind: KubeadmConfigTemplate
 apiVersion: bootstrap.cluster.x-k8s.io/v1beta2
 metadata:
-  name: proxmox-kubernetes-engine-workertemplate
+  name: proxmox-kubernetes-engine-v0.0.8
 spec:
   template:
     spec:
