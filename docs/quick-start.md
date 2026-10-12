@@ -171,7 +171,7 @@ Please ensure that you have DHCP configured in your network. If you encounter an
 
 If you're lucky, you should see a new template in the UI after a few minutes.![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/ebymhlsjwkqa2o49bhek.png)
 
-In order for the Cluster API to find our template later, we need to add a tag named **`v1-35-9`** to the template.
+In order for the Cluster API to find our template later, we need to add a tag named **`v1.35.9`** to the template.
 ![Tag](https://i.imgur.com/QrPsQxQ.png)
 
 This step will be automated when [this](https://github.com/kubernetes-sigs/image-builder/pull/1914) is merged and released.
