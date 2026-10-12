@@ -1,7 +1,7 @@
 kind: ProxmoxMachineTemplate
 apiVersion: infrastructure.cluster.x-k8s.io/v1alpha2
 metadata:
-  name: proxmox-clusterclass-v0.1.0-workertemplate
+  name: proxmox-kubernetes-engine-worker-v0.0.8
 spec:
   template:
     spec:

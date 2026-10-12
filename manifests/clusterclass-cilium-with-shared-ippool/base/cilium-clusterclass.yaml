@@ -2,7 +2,7 @@
 apiVersion: cluster.x-k8s.io/v1beta2
 kind: ClusterClass
 metadata:
-  name: proxmox-clusterclass-cilium-v0.1.0
+  name: proxmox-kubernetes-engine-v0.0.8
 spec:
   controlPlane:
     healthCheck:
@@ -19,25 +19,25 @@ spec:
       templateRef:
         apiVersion: infrastructure.cluster.x-k8s.io/v1alpha2
         kind: ProxmoxMachineTemplate
-        name: proxmox-clusterclass-v0.1.0-control-plane-template
+        name: proxmox-kubernetes-engine-cp-v0.0.8
     naming:
       template: '{{ .cluster.name }}-control-plane-{{ .random }}'
     templateRef:
       apiVersion: controlplane.cluster.x-k8s.io/v1beta2
       kind: KubeadmControlPlaneTemplate
-      name: proxmox-kubernetes-engine
+      name: proxmox-kubernetes-engine-v0.0.8
   infrastructure:
     templateRef:
       apiVersion: infrastructure.cluster.x-k8s.io/v1alpha2
       kind: ProxmoxClusterTemplate
-      name: proxmox-clusterclass-cilium-v0.1.0-clustertemplate
+      name: proxmox-kubernetes-engine-v0.0.8
   workers:
     machineDeployments:
     - bootstrap:
         templateRef:
           apiVersion: bootstrap.cluster.x-k8s.io/v1beta2
           kind: KubeadmConfigTemplate
-          name: proxmox-kubernetes-engine-workertemplate
+          name: proxmox-kubernetes-engine-v0.0.8
       class: proxmox-worker
       healthCheck:
         checks:
@@ -56,7 +56,7 @@ spec:
         templateRef:
           apiVersion: infrastructure.cluster.x-k8s.io/v1alpha2
           kind: ProxmoxMachineTemplate
-          name: proxmox-clusterclass-v0.1.0-workertemplate
+          name: proxmox-kubernetes-engine-worker-v0.0.8
       metadata:
         labels:
           node-role.kubernetes.io/node: ""
