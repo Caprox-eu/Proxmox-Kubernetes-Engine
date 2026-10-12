@@ -4,8 +4,6 @@ kind: Application
 metadata:
   name: proxmox-kubernetes-engine
   namespace: argocd 
-  finalizers:
-    - resources-finalizer.argocd.argoproj.io
 spec:
   destination:
     namespace: capi-operator-system

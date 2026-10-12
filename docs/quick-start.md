@@ -231,8 +231,6 @@ kind: Application
 metadata:
   name: cluster-api-operator
   namespace: argocd
-  finalizers:
-    - resources-finalizer.argocd.argoproj.io
 spec:
   destination:
     namespace: capi-operator-system
@@ -240,10 +238,12 @@ spec:
   project: default
   source:
     repoURL: https://kubernetes-sigs.github.io/cluster-api-operator
+    # until capmox supports capi 1.13
     targetRevision: 0.28.0
     chart: cluster-api-operator
     helm:
       values: |
+        enableHelmHook: false
         core:
           cluster-api:
             enabled: true
@@ -268,10 +268,21 @@ spec:
         infrastructure: 
           proxmox:
             enabled: true
-            version: v0.9.0
+            version: v0.9.1
             manager:
               featureGates:
                 ClusterTopology: true
+            patches:
+                - patch: |
+                    - op: replace
+                      path: /spec/template/spec/containers/0/image
+                      value: docker.io/3deep5me/controller:0.9.1-1
+                  target:
+                    group: apps
+                    version: v1
+                    kind: Deployment
+                    name: capmox-controller-manager
+                    namespace: proxmox-infrastructure-system
         ipam:
           in-cluster:
             enabled: true
@@ -294,9 +305,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: proxmox-kubernetes-engine
-  namespace: argocd 
-  finalizers:
-    - resources-finalizer.argocd.argoproj.io
+  namespace: argocd
 spec:
   destination:
     namespace: capi-operator-system
@@ -499,7 +508,7 @@ spec:
         # sshAuthorizedKeys: 
         # - "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC0Z7+6k"
         vmTemplate:
-          templateTag: "v1-35-9"
+          templateTag: "v1.35.9"
         #vmIDRange:
         #  start: 200
         #  end: 300
