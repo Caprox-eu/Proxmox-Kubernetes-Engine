@@ -1,3 +1,0 @@
-controlPlane:
-  endpoint: "192.168.2.203"
-  replicas: 3
