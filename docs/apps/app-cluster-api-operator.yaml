@@ -41,21 +41,10 @@ spec:
         infrastructure: 
           proxmox:
             enabled: true
-            version: v0.9.1
+            version: v0.9.2
             manager:
               featureGates:
                 ClusterTopology: true
-            patches:
-                - patch: |
-                    - op: replace
-                      path: /spec/template/spec/containers/0/image
-                      value: docker.io/3deep5me/controller:0.9.1-1
-                  target:
-                    group: apps
-                    version: v1
-                    kind: Deployment
-                    name: capmox-controller-manager
-                    namespace: proxmox-infrastructure-system
         ipam:
           in-cluster:
             enabled: true
