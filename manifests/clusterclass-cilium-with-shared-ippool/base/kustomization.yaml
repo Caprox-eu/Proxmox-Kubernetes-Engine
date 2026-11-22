@@ -106,3 +106,6 @@ patches:
   - path: patches/ProxmoxMachineTemplate/NodeVmIDRange.yaml
     target:
       kind: ClusterClass
+  - path: patches/ProxmoxMachineTemplate/ResourcePool.yaml
+    target:
+      kind: ClusterClass

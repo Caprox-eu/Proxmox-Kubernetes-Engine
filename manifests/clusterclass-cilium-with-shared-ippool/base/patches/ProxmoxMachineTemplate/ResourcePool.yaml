@@ -1,0 +1,28 @@
+- op: add
+  path: /spec/patches/-
+  value:
+    name: ResourcePool
+    description: "Place every VM of the Cluster in the Proxmox resource pool named by cloneSpec.pool (ProxmoxMachine.spec.pool)"
+    # Proxmox accepts an empty pool id nowhere, and capmox passes the value
+    # straight into its clone request (internal/service/vmservice/vm.go:
+    # `if scope.ProxmoxMachine.Spec.Pool != nil { options.Pool = ... }`). So the
+    # patch only runs when cloneSpec.pool renders a non-empty string; an empty
+    # (or absent) `pool` leaves the field out of the template entirely, which is
+    # the behaviour every Cluster had before this field existed.
+    enabledIf: "{{ if .cloneSpec.pool }}true{{ end }}"
+    definitions:
+      - selector:
+          apiVersion: infrastructure.cluster.x-k8s.io/v1alpha2
+          kind: ProxmoxMachineTemplate
+          matchResources:
+            controlPlane: true
+            machineDeploymentClass:
+              names:
+              - proxmox-worker
+        jsonPatches:
+          - op: add
+            path: /spec/template/spec/pool
+            valueFrom:
+              # `variable` hands over the variable's JSON, so a string arrives
+              # quoted ('"capi"') the way the API server expects it.
+              variable: cloneSpec.pool
