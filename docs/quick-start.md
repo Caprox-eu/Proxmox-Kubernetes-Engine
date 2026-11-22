@@ -575,6 +575,11 @@ The fields you **can** change are:
 * **`metadata.name`**:
     * This is the name of your Kubernetes cluster.
 
+* **`cloneSpec.pool`** (optional):
+    * The Proxmox resource pool every VM of this Cluster is created in, inside the `cloneSpec` variable. VMs are created without a pool when you leave it out, so this changes nothing for existing Clusters.
+    * The pool must already exist on the Proxmox host (`Datacenter → Permissions → Pools`); Proxmox refuses to clone into a pool that does not exist, and the Machine then never appears.
+    * capmox writes the pool onto the VM at clone time, so changing it on a running Cluster only affects Machines created afterwards.
+
 For more configuration options, including memory and CPU settings for your VMs, refer to the available **variables** [here](https://github.com/Caprox-eu/Proxmox-Kubernetes-Engine/blob/main/manifests/clusterclass-cilium-with-shared-ippool/base/variables/clonespec.yaml).
 
 After you've set the required fields, remember to save the file.

@@ -21,6 +21,11 @@
             x-kubernetes-validations:
             - message: end should be greater than or equal to start
               rule: self.end >= self.start
+          pool:
+            type: string
+            default: ""
+            description: Proxmox resource pool every VM of this Cluster is created in (optional; the pool must exist in Proxmox and is applied when capmox clones the VM). An empty value creates the VMs without a pool.
+            example: "capi"
           sshAuthorizedKeys:
             type: array
             items:
